@@ -15,8 +15,10 @@ extension Color {
     static let customMiddleBlack = Color(hex: 0x383838)
     static let customGray = Color(hex: 0x616161)
     static let customLightGray = Color(hex: 0xDFDFDF)
+    static let customGreen = Color(hex: 0x2D6040)
+    static let customYellow = Color(hex: 0xF4CE4A)
     
-    
+    // hex 값으로 색을 초기화합니다.
     init(hex: UInt, alpha: Double = 1) {
         self.init(
             .sRGB,
