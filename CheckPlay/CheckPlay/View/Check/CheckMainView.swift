@@ -14,24 +14,28 @@ struct CheckMainView: View {
     @State var isActiveMyPage: Bool = false
     
     var body: some View {
-        VStack {
-            Map(coordinateRegion: $region)
-            NavigationLink(destination: MyPageView().environmentObject(userStore)
-                           , isActive: $isActiveMyPage) {}
+        VStack(alignment: .leading) {
+            // 현재 날짜
+            Text("\(Date().toStringUntilDay())")
+                .font(.title.bold())
+                .padding(10)
             
-                .navigationTitle("2023년 2월 20일") // 현재 날짜
-                .toolbar {
-                    ToolbarItem {
-                        Button(action: {
-                            isActiveMyPage = true
-                        }) {
-                            Image(systemName: "person.circle.fill")
-                                .font(.title3)
-                        }
-                    } // - ToolbarItem
-                } // - toolbar
-        } // - NavigationView
-        
-        
+            // 지도
+            CheckMapView()
+    
+//            // nfc 버튼
+//                .toolbar {
+//                    ToolbarItem {
+//                        Button(action: {
+//                            isActiveMyPage = true
+//                        }) {
+//                            Image(systemName: "person.circle.fill")
+//                                .font(.title3)
+//                        }
+//                    } // - ToolbarItem
+//                } // - toolbar
+        } // - VStack
+
     }
 }
+
