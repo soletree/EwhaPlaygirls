@@ -11,12 +11,14 @@ import SwiftUI
 struct LoginRouteView: View {
     @EnvironmentObject var userStore: UserStore
     var body: some View {
-        if userStore.isLogin {
-            ContentView()
-        } else {
-            LoginView()
-        }
-        
-    }
+        NavigationView {
+            if userStore.isLogin {
+                ContentView()
+            } else {
+                LoginView()
+            }
+            
+        } // - NavigationView
+    } 
 }
 
