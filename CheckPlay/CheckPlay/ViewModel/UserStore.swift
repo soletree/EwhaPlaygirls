@@ -10,6 +10,7 @@ import FirebaseAuth
 import FirebaseFirestore
 
 enum SignUpError: Error {
+    case invalidEmailFormat // 유효하지 않은 이메일 형식
     case duplicatedEmail // 중복된 이메일
     case invalidStudentCode // 검증되지 않은 학번
     case unsafetyPassword // 안전하지 않은 비밀번호
@@ -36,18 +37,22 @@ class UserStore: ObservableObject {
     
     
     /// 회원가입 로직을 처리하는 메서드입니다.
-    /// 이메일, 비밀번호, 이름, 학번 필요 -> 구조체로 빼는게 나을까?
     func signUp(email: String, password: String, name: String, studentCode: String) async -> Result<Bool, SignUpError>{
         // 이미 앞에서 이메일 중복 로직은 처리한 상태
-        
+        if await !isValidEmail(email: email) {
+            return .failure(.invalidEmailFormat)
+        }
         
         // 유효하지 않은 학번, 이름
         if await !isValidStudentCode(name: name, studentCode: studentCode) {
             return .failure(.invalidStudentCode)
         }
         
-        //FIXME: 정규식
+        
         // password valid?
+        if !password.isValidPasswordFormat() { return .failure(.unsafetyPassword) }
+        
+        
         let firebaseSignUpResult = await firebaseSignUp(email: email, password: password)
         
         // 파이어베이스 회원가입
@@ -85,7 +90,7 @@ class UserStore: ObservableObject {
     /// 반환값: 이메일 중복여부(Bool) 중복시 true 반환
     func isValidEmail(email: String) async -> Bool {
         // 이메일이 이메일의 format을 만족하는지 확인합니다.
-        
+        if !email.isValidEmailFormat() { return false }
         
         // 이메일의 중복여부를 확인합니다.
         do {
@@ -93,12 +98,12 @@ class UserStore: ObservableObject {
                 .whereField(UserConstant.userEmail, isEqualTo: email)
                 .getDocuments()
             
-            if snapshot.documents.isEmpty { return false }
-            else { return true }
+            if snapshot.documents.isEmpty { return true }
+            else { return false }
             
         } catch {
             print("\(error.localizedDescription)")
-            return true
+            return false
         }
     } // - isEmailInDatabase
     
@@ -214,4 +219,24 @@ class UserStore: ObservableObject {
         }
     } // - signOut
     
+}
+
+
+extension String {
+    /// 이메일이 format에 맞는지 판별하는 메서드입니다.
+    /// - return: format에 맞는 이메일이면 true를 반환합니다.
+    func isValidEmailFormat() -> Bool {
+        // 이메일 정규식입니다.
+        let emailRegex =  "^([a-zA-Z0-9._-])+@[a-zA-Z0-9.-]+.[a-zA-Z]{3,20}$"
+        return self.range(of: emailRegex) != nil
+    }
+    
+    /// 비밀번호가 format에 맞는지 판별하는 메서드입니다.
+    /// 8~50자 이내 
+    /// - return: format에 맞는 비밀번호면 true를 반환합니다.
+    func isValidPasswordFormat() -> Bool {
+        // 비밀번호 정규식입니다.
+        let passwordRegex = "^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*()_+=-]).{8,50}$"
+        return self.range(of: passwordRegex) != nil
+    }
 }
