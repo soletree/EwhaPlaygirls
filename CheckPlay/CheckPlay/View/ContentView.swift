@@ -12,25 +12,40 @@ struct ContentView: View {
         TabView {
             
             // 출석체크 탭
-            CheckMainView()
-                .tabItem {
-                    Image(systemName: "checkmark.circle.fill")
-                    Text("출석체크")
-                }
+            NavigationView {
+                CheckMainView()
+            }
+                    .tabItem {
+                        Image(systemName: "checkmark.circle.fill")
+                        Text("출석체크")
+                    }
+            
             
             // 출석현황 탭
-            Text("123")
+            NavigationView {
+                AttendanceMainView()
+            }
                 .tabItem {
                     Image(systemName: "list.clipboard")
                     Text("출석현황")
                 }
             
-            // 공결신청 탭 
-            Text("123")
+            // 공결신청 탭
+            NavigationView {
+                RequestView()
+            }
                 .tabItem {
                     Image(systemName: "square.and.pencil")
                     Text("공결신청")
                 }
+            
+            
+            MyPageView()
+                .tabItem {
+                    Image(systemName: "person.fill")
+                    Text("마이페이지")
+                }
+            
         }
         
         
