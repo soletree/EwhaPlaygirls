@@ -18,8 +18,7 @@ struct LoginView: View {
     
     var body: some View {
         VStack {
-            Image(systemName: "baseball.fill")
-                .renderingMode(.original)
+            Image("logo")
                 .resizable()
                 .frame(width: UIScreen.screenHeight * 0.25, height: UIScreen.screenHeight * 0.25)
                 .padding(10)
