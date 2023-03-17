@@ -205,7 +205,7 @@ class UserStore: ObservableObject {
     } // - fetchUser
     
     
-    //MARK: - Method(signOut)
+    //MARK: - Method(logOut)
     /// 로그아웃 메서드입니다.
     func logOut() -> Bool {
         do {
@@ -217,8 +217,37 @@ class UserStore: ObservableObject {
             print("\(error.localizedDescription)")
             return false
         }
-    } // - signOut
+    } // - logOut
     
+    //MARK: - Method(relogInAndReauthentication)
+    func relogInAndReauthentication(password: String) async -> Bool {
+        guard let user = Auth.auth().currentUser
+        else { return false }
+        
+        do {
+            try await Auth.auth().signIn(withEmail: user.email ?? DefaultValue.defaultString, password: password)
+                
+            return true
+        } catch {
+            print("\(error.localizedDescription)")
+            return false
+        }
+    } // - relogInAndReauthentication
+    
+    //MARK: - Method
+    func updatePassword(updatedPassword: String) async -> Bool {
+        guard let user = Auth.auth().currentUser else { return false }
+        
+        do {
+            // password 정규식에 맞는지 확인
+    
+            try await user.updatePassword(to: updatedPassword)
+            return true
+        } catch {
+            print("\(error.localizedDescription)")
+            return false
+        }
+    } // - updatePassword
 }
 
 
