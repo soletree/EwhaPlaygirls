@@ -33,7 +33,8 @@ struct CheckPlayApp: App {
     var body: some Scene {
         WindowGroup {
             
-                LoginRouteView()
+            LoginRouteView()
+                    .accentColor(.customGreen)
                     .environmentObject(userStore)
                     .environmentObject(scheduleStore)
                     .environmentObject(attendanceStore)
@@ -42,6 +43,7 @@ struct CheckPlayApp: App {
                         // 이미 로그인한 상태면
                         guard let currentUser = Auth.auth().currentUser else { return }
                         await userStore.fetchUser(uid: currentUser.uid)
+                        await scheduleStore.fetchScheduleOnToday()
                         userStore.isLogin = true
                     }
             
