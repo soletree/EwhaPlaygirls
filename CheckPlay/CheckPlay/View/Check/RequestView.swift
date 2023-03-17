@@ -48,15 +48,24 @@ struct RequestRow: View {
     }
     
     var schedule: Schedule
+    
+    @State var isProcessingWithFetch: Bool = false
+    
     @Binding var isPresentedAddRequestAlert: Bool
     @State var isAlreadyInRequest: Bool = false
     @State var isPresentedAddRequestSheet: Bool = false
     @Binding var toastAlert: AlertToast
     var body: some View {
         HStack {
-            Image(systemName: isAlreadyInRequest ? "checkmark.circle.fill" : "minus.circle.fill")
-                .foregroundColor( isAlreadyInRequest ? .green : .purple)
-                .font(.title3)
+            // fetch 중이면 ProgressView를 보여줍니다.
+            if isProcessingWithFetch {
+                ProgressView()
+            } else {
+                Image(systemName: isAlreadyInRequest ? "checkmark.circle.fill" : "minus.circle.fill")
+                    .foregroundColor( isAlreadyInRequest ? .green : .purple)
+                    .font(.title3)
+            }
+            
             VStack(alignment: .leading) {
                 Text("\(schedule.date.toStringUntilDay())")
                 Text("\(schedule.date.toStringOnlyHourAndMinute())")
@@ -64,6 +73,7 @@ struct RequestRow: View {
             }
         }
         .onTapGesture {
+            if isProcessingWithFetch { return } // disable 처리
             isPresentedAddRequestSheet = true
             pickedSchedule = schedule
         }
@@ -71,13 +81,16 @@ struct RequestRow: View {
             if #available(iOS 16.0, *) {
                 RequestDetailView(pickedSchedule: $pickedSchedule, isPresentedAddRequestAlert: $isPresentedAddRequestAlert, isAlreadyInRequest: $isAlreadyInRequest, toastAlert: $toastAlert)
                     .presentationDetents([.medium])
+                    
             } else {
                 RequestDetailView(pickedSchedule: $pickedSchedule, isPresentedAddRequestAlert: $isPresentedAddRequestAlert, isAlreadyInRequest: $isAlreadyInRequest, toastAlert: $toastAlert)
             }
                 
         }
         .task {
+            isProcessingWithFetch = true
             isAlreadyInRequest = await requestStore.isAlreadyInRequest(scheduleID: pickedSchedule.id, studentCode: studentCode)
+            isProcessingWithFetch = false
         }
         
     }
