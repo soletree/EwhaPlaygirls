@@ -37,21 +37,7 @@ class UserStore: ObservableObject {
     
     
     /// 회원가입 로직을 처리하는 메서드입니다.
-    func signUp(email: String, password: String, name: String, studentCode: String) async -> Result<Bool, SignUpError>{
-        // 이미 앞에서 이메일 중복 로직은 처리한 상태
-        if await !isValidEmail(email: email) {
-            return .failure(.invalidEmailFormat)
-        }
-        
-        // 유효하지 않은 학번, 이름
-        if await !isValidStudentCode(name: name, studentCode: studentCode) {
-            return .failure(.invalidStudentCode)
-        }
-        
-        
-        // password valid?
-        if !password.isValidPasswordFormat() { return .failure(.unsafetyPassword) }
-        
+    func signUp(email: String, password: String, name: String, studentCode: String) async -> Bool {
         
         let firebaseSignUpResult = await firebaseSignUp(email: email, password: password)
         
@@ -62,11 +48,11 @@ class UserStore: ObservableObject {
             // db에 유저를 등록합니다.
             let newUser: User = .init(id: result.user.uid, studentCode: studentCode, name: name, email: email)
             if await !addUserToDatabase(user: newUser)
-            { return .failure(.unknown) }
-            return .success(true)
+            { return false }
+            return true
             // 실패했으면 오류를 반환합니다.
         case .failure(_):
-            return .failure(.unknown)
+            return false
         }
 //        return .failure(.alreadySigned)
         // 파이어베이스 회원가입
@@ -111,6 +97,7 @@ class UserStore: ObservableObject {
     /// db 상에 등록된 학번과 이름인지 검증하는 메서드입니다.
     /// 반환값: 검증 완료 여부 (검증되었으면 true 반환)
     func isValidStudentCode(name: String, studentCode: String) async -> Bool {
+        guard !studentCode.isEmpty else { return false }
         do {
             let document = try await database.collection("Member").document("\(studentCode)")
                 .getDocument()
@@ -123,12 +110,12 @@ class UserStore: ObservableObject {
             }
             
             // 이미 가입된 학번인지 확인
-            let userDocument = try await database.collection("User")
-                .document("\(studentCode)")
-                .getDocument()
+            let snapshot = try await database.collection("User")
+                .whereField(UserConstant.userStudentCode, isEqualTo: studentCode)
+                .getDocuments()
             
             // 이미 가입된 학번임
-            if userDocument.exists { return false }
+            if !snapshot.documents.isEmpty { return false }
 
             return true
         } catch {
@@ -248,6 +235,39 @@ class UserStore: ObservableObject {
             return false
         }
     } // - updatePassword
+    
+    func verifyEmail() async {
+        guard let currentUser = Auth.auth().currentUser
+        else { print("current user가 없습니다."); return }
+        do {
+            try await currentUser.sendEmailVerification()
+            
+        } catch {
+            print("\(error.localizedDescription)")
+        }
+        
+    }
+    
+    /// 회원탈퇴가 성공적으로 이루어지면 true를 반환합니다.
+    func deleteUser() async -> Bool {
+        guard let user = Auth.auth().currentUser else { return false }
+        do {
+            // Authentication에서 삭제
+            try await Auth.auth().currentUser?.delete()
+            
+            // User collection에서 삭제
+            try await database.collection("User")
+                .document(user.uid)
+                .delete()
+            
+            return true
+            
+        } catch {
+            print("\(error.localizedDescription )")
+            return false
+        }
+            
+    } // - deleteUser
 }
 
 
@@ -257,7 +277,7 @@ extension String {
     func isValidEmailFormat() -> Bool {
         // 이메일 정규식입니다.
         let emailRegex =  "^([a-zA-Z0-9._-])+@[a-zA-Z0-9.-]+.[a-zA-Z]{3,20}$"
-        return self.range(of: emailRegex) != nil
+        return self.range(of: emailRegex, options: .regularExpression) != nil
     }
     
     /// 비밀번호가 format에 맞는지 판별하는 메서드입니다.
@@ -265,7 +285,7 @@ extension String {
     /// - return: format에 맞는 비밀번호면 true를 반환합니다.
     func isValidPasswordFormat() -> Bool {
         // 비밀번호 정규식입니다.
-        let passwordRegex = "^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*()_+=-]).{8,50}$"
-        return self.range(of: passwordRegex) != nil
+        let passwordRegex = "^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*()_+=-]).{6,50}$"
+        return self.range(of: passwordRegex, options: .regularExpression) != nil
     }
 }
