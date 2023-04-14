@@ -7,6 +7,7 @@
 import UIKit
 import SwiftUI
 import AlertToast
+import GoogleMobileAds
 
 struct RequestView: View {
     @EnvironmentObject var scheduleStore: ScheduleStore
@@ -19,12 +20,19 @@ struct RequestView: View {
         VStack {
             List{
                 ForEach(scheduleStore.schedules, id: \.self.id) { schedule in
-                    RequestRow(pickedSchedule: .constant(schedule), schedule: schedule, isPresentedAddRequestAlert: $isPresentedAddRequestAlert, toastAlert: $toastAlert)
+                        RequestRow(pickedSchedule: .constant(schedule), schedule: schedule, isPresentedAddRequestAlert: $isPresentedAddRequestAlert, toastAlert: $toastAlert)
                         
                 }
                 
             }
+            
+            
+            Spacer()
+            GoogleAdView()
+                .frame(width: UIScreen.main.bounds.width, height: GADPortraitAnchoredAdaptiveBannerAdSizeWithWidth(UIScreen.main.bounds.width).size.height)
+            
             .navigationTitle("공결 신청")
+            .navigationBarTitleDisplayMode(.large)
         } // - VStack
         .task {
             await scheduleStore.fetchSchedulesUntilThreeDaysLater()
@@ -36,6 +44,7 @@ struct RequestView: View {
             toastAlert
         }
     }
+   
 }
 
 struct RequestRow: View {
@@ -51,50 +60,73 @@ struct RequestRow: View {
     
     @State var isProcessingWithFetch: Bool = false
     
+    @State var isTapped: Bool = false
+    
     @Binding var isPresentedAddRequestAlert: Bool
     @State var isAlreadyInRequest: Bool = false
     @State var isPresentedAddRequestSheet: Bool = false
     @Binding var toastAlert: AlertToast
     var body: some View {
-        HStack {
-            // fetch 중이면 ProgressView를 보여줍니다.
-            if isProcessingWithFetch {
-                ProgressView()
-            } else {
-                Image(systemName: isAlreadyInRequest ? "checkmark.circle.fill" : "minus.circle.fill")
-                    .foregroundColor( isAlreadyInRequest ? .green : .purple)
-                    .font(.title3)
+            HStack {
+                // fetch 중이면 ProgressView를 보여줍니다.
+                if isProcessingWithFetch {
+                    ProgressView()
+                } else {
+                    Image(systemName: isAlreadyInRequest ? "checkmark.circle.fill" : "minus.circle.fill")
+                        .foregroundColor( isAlreadyInRequest ? .green : .yellow)
+                        .font(.title3)
+                }
+                
+                VStack(alignment: .leading) {
+                    Text("\(schedule.date.toStringUntilDay())")
+                    Text("\(schedule.date.toStringOnlyHourAndMinute())")
+                        .font(.callout)
+                } // - VStack
+                // detail page로 이동하는 느낌을 주기 위해 아이콘 추가
+                Spacer()
+                Image(systemName: "chevron.backward")
+                    .rotationEffect(.init(degrees: 180))
+                    .foregroundColor(.gray)
+                
+                
+                
+            } // - HStack
+            // HStack 내부에만 있는 컨텐츠를 탭이 가능하도록 설정합니다.
+            .contentShape(Rectangle())
+            .onTapGesture {
+                if isProcessingWithFetch { return } // disable 처리
+                isPresentedAddRequestSheet = true
+                pickedSchedule = schedule
+                
             }
             
-            VStack(alignment: .leading) {
-                Text("\(schedule.date.toStringUntilDay())")
-                Text("\(schedule.date.toStringOnlyHourAndMinute())")
-                    .font(.callout)
-            }
-        }
-        .onTapGesture {
-            if isProcessingWithFetch { return } // disable 처리
-            isPresentedAddRequestSheet = true
-            pickedSchedule = schedule
-        }
-        .sheet(isPresented: $isPresentedAddRequestSheet) {
-            if #available(iOS 16.0, *) {
-                RequestDetailView(pickedSchedule: $pickedSchedule, isPresentedAddRequestAlert: $isPresentedAddRequestAlert, isAlreadyInRequest: $isAlreadyInRequest, toastAlert: $toastAlert)
-                    .presentationDetents([.medium])
+            .sheet(isPresented: $isPresentedAddRequestSheet) {
+                if #available(iOS 16.0, *) {
+                    RequestDetailView(pickedSchedule: $pickedSchedule, isPresentedAddRequestAlert: $isPresentedAddRequestAlert, isAlreadyInRequest: $isAlreadyInRequest, toastAlert: $toastAlert)
+                        .presentationDetents(isAlreadyInRequest ? [.fraction(0.45)] : [.medium])
+                        .presentationDragIndicator(.visible)
+                        
+                } else {
+                    RequestDetailView(pickedSchedule: $pickedSchedule, isPresentedAddRequestAlert: $isPresentedAddRequestAlert, isAlreadyInRequest: $isAlreadyInRequest, toastAlert: $toastAlert)
+                }
                     
-            } else {
-                RequestDetailView(pickedSchedule: $pickedSchedule, isPresentedAddRequestAlert: $isPresentedAddRequestAlert, isAlreadyInRequest: $isAlreadyInRequest, toastAlert: $toastAlert)
             }
-                
+            .task {
+                isProcessingWithFetch = true
+                isAlreadyInRequest = await requestStore.isAlreadyInRequest(scheduleID: pickedSchedule.id, studentCode: studentCode)
+                isProcessingWithFetch = false
         }
-        .task {
-            isProcessingWithFetch = true
-            isAlreadyInRequest = await requestStore.isAlreadyInRequest(scheduleID: pickedSchedule.id, studentCode: studentCode)
-            isProcessingWithFetch = false
-        }
+        
         
     }
     
+}
+
+struct testListCell: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .background(configuration.isPressed ? Color.secondary : Color.clear)
+    }
 }
 
 //MARK: - View(RequestDetailView)
@@ -149,7 +181,7 @@ struct RequestDetailView: View {
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .foregroundColor(.green)
-                    .frame(width: UIScreen.screenWidth * 0.5, height: UIScreen.screenHeight * 0.2)
+                    .frame(width: UIScreen.screenWidth * 0.4, height: UIScreen.screenWidth * 0.4)
             }
             .frame(width: UIScreen.screenWidth)
             
@@ -161,9 +193,17 @@ struct RequestDetailView: View {
         VStack {
             Text("\(pickedSchedule.date.toStringUntilDay())")
                 .font(.title.bold())
+            
+            
+            
             TextEditor(text: $content)
                 .modifier(CustomTextEditorModifier(title: "사유를 입력해주세요.", text: $content))
                 .padding(20)
+            
+            
+            Text("부적절한 내용 작성 시 제재받을 수 있습니다.")
+                .foregroundColor(.gray)
+                .font(.callout)
             
             CustomButton(style: .request, action: {
                 Task {
@@ -204,7 +244,7 @@ struct RequestDetailView: View {
                     dismiss()
                 }
             }).customButton
-                .disabled(isProcessing)
+                .disable(isProcessing || content.isEmpty)
                 
             
         } // - VStack
