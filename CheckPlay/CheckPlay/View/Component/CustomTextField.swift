@@ -11,6 +11,8 @@ struct CustomTextField {
     enum CustomTextFieldStyle {
         case plain
         case secure
+        case studentCode
+        case email
     }
     let customTextField: CustomTextFieldView
     
@@ -24,7 +26,11 @@ struct CustomTextField {
             case .plain:
                 plainStyle
             case .secure:
-                    secureStyleWithEyeButton
+                secureStyleWithEyeButton
+            case .studentCode:
+                studentCodeStyle
+            case .email:
+                emailStyle
             }
         
             
@@ -35,6 +41,7 @@ struct CustomTextField {
             TextField("\(title)", text: $text)
                 .frame(width: UIScreen.screenWidth * 0.8, height: UIScreen.screenHeight * 0.05)
                 .textFieldStyle(.roundedBorder)
+                
             
         } // - plainStyle
         private var secureStyle: some View {
@@ -60,6 +67,24 @@ struct CustomTextField {
                     }
                 }
         }
+        
+        //MARK: - View(plainStyle)
+        private var studentCodeStyle: some View {
+            TextField("\(title)", text: $text)
+                .frame(width: UIScreen.screenWidth * 0.8, height: UIScreen.screenHeight * 0.05)
+                .textFieldStyle(.roundedBorder)
+                .keyboardType(.numberPad)
+            
+        } // - plainStyle
+        
+        //MARK: - View(plainStyle)
+        private var emailStyle: some View {
+            TextField("\(title)", text: $text)
+                .frame(width: UIScreen.screenWidth * 0.8, height: UIScreen.screenHeight * 0.05)
+                .textFieldStyle(.roundedBorder)
+                .keyboardType(.emailAddress)
+            
+        } // - plainStyle
         
     }
     init(style: CustomTextFieldStyle, title: String, text: Binding<String>){
