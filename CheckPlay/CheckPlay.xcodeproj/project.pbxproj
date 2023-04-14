@@ -63,7 +63,6 @@
 		FDD5095E29C9A5EE008E2DC0 /* SignUpRouteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDD5095D29C9A5EE008E2DC0 /* SignUpRouteView.swift */; };
 		FDD5096029C9F989008E2DC0 /* LauchScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDD5095F29C9F989008E2DC0 /* LauchScreenView.swift */; };
 		FDD5096329CA013E008E2DC0 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = FDD5096229CA013E008E2DC0 /* Lottie */; };
-		FDD5096629CA0168008E2DC0 /* loading-paperplane.json in Resources */ = {isa = PBXBuildFile; fileRef = FDD5096529CA0168008E2DC0 /* loading-paperplane.json */; };
 		FDD5096829CA0199008E2DC0 /* LottieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDD5096729CA0199008E2DC0 /* LottieView.swift */; };
 		FDF4558B29A29AAA005DEFB7 /* CheckPlayApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF4558A29A29AAA005DEFB7 /* CheckPlayApp.swift */; };
 		FDF4558D29A29AAA005DEFB7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF4558C29A29AAA005DEFB7 /* ContentView.swift */; };
@@ -141,7 +140,6 @@
 		FDD5095B29C97891008E2DC0 /* TypePasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypePasswordView.swift; sourceTree = "<group>"; };
 		FDD5095D29C9A5EE008E2DC0 /* SignUpRouteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpRouteView.swift; sourceTree = "<group>"; };
 		FDD5095F29C9F989008E2DC0 /* LauchScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LauchScreenView.swift; sourceTree = "<group>"; };
-		FDD5096529CA0168008E2DC0 /* loading-paperplane.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "loading-paperplane.json"; sourceTree = "<group>"; };
 		FDD5096729CA0199008E2DC0 /* LottieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieView.swift; sourceTree = "<group>"; };
 		FDF4558729A29AAA005DEFB7 /* CheckPlay.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CheckPlay.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDF4558A29A29AAA005DEFB7 /* CheckPlayApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckPlayApp.swift; sourceTree = "<group>"; };
@@ -314,7 +312,6 @@
 		FDD5096429CA0146008E2DC0 /* LottieFile */ = {
 			isa = PBXGroup;
 			children = (
-				FDD5096529CA0168008E2DC0 /* loading-paperplane.json */,
 				FD6BBEF029E553C70019FCCE /* loading-airplane-green.json */,
 			);
 			path = LottieFile;
@@ -580,7 +577,6 @@
 				FDF4559229A29AAB005DEFB7 /* Preview Assets.xcassets in Resources */,
 				FD6BBEF129E553C70019FCCE /* loading-airplane-green.json in Resources */,
 				FDF4558F29A29AAB005DEFB7 /* Assets.xcassets in Resources */,
-				FDD5096629CA0168008E2DC0 /* loading-paperplane.json in Resources */,
 				FDCA1E9529AD04480038725D /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
