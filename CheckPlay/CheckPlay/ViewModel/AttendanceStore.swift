@@ -11,10 +11,35 @@ import FirebaseFirestore
 class AttendanceStore: ObservableObject {
     let database = Firestore.firestore()
     @Published var attendances: [Attendance] = []
+    @Published var attendanceOfToday: Attendance?
+    
+    
+    func fetchAttendance(attendanceID: String) async -> Result<Attendance, StoreError> {
+        do {
+            let document = try await database.collection("Attendance")
+                .document(attendanceID)
+                .getDocument()
+            let timestamp = document[AttendanceConstant.date] as? Timestamp
+            
+            let attendance = Attendance(id: document[AttendanceConstant.id] as? String ?? "",
+                              studentCode: document[AttendanceConstant.studentCode] as? String ?? "",
+                              scheduleID: document[AttendanceConstant.scheduleID] as? String ?? "",
+                              attendanceStatus: AttendanceStatus(rawValue: document[AttendanceConstant.attendanceStatus] as? String ?? "") ?? .absent,
+                              lateTime: document[AttendanceConstant.lateTime] as? Int ?? 0,
+                              isPaying: document[AttendanceConstant.isPaying] as? Bool ?? false,
+                              date: timestamp?.dateValue() ?? Date())
+            
+            return .success(attendance)
+            
+        } catch {
+            print("\(error.localizedDescription)")
+            return .failure(.fetchError)
+        }
+    }
     
     //MARK: - Method(fetchAttendance)
     @MainActor
-    func fetchAttendance(studentCode: String) async -> Bool {
+    func fetchAttendances(studentCode: String) async -> Bool {
         var fetchAttendances: [Attendance] = []
         do {
             let snapshot = try await database.collection("Attendance")
@@ -101,11 +126,14 @@ class AttendanceStore: ObservableObject {
                 .document(attendanceID)
                 .updateData([AttendanceConstant.attendanceStatus : attendanceStatus.rawValue])
                 
+            try await database.collection("Attendance")
+                .document(attendanceID)
+                .updateData([AttendanceConstant.lateTime : lateTime])
 //            try await database.collection("Attendance")
 //                .document(attendanceID)
 //                .setValue(AttendanceConstant.lateTime, forKey: lateTime)
             
-                    
+            
             return true
         } catch {
             print("\(error.localizedDescription)")
@@ -133,6 +161,27 @@ class AttendanceStore: ObservableObject {
             return .failure(.fetchError)
         }
     }
+    
+    //MARK: - updateAttendance(Method)
+    func updateAttendance(attendance: Attendance) async -> Bool {
+        do {
+            try await database.collection("Attedance")
+                .document(attendance.id)
+                .setData([
+                    AttendanceConstant.id : attendance.id,
+                    AttendanceConstant.studentCode : attendance.studentCode,
+                    AttendanceConstant.scheduleID : attendance.scheduleID,
+                    AttendanceConstant.attendanceStatus : attendance.attendanceStatus.rawValue,
+                    AttendanceConstant.lateTime : attendance.lateTime,
+                    AttendanceConstant.isPaying : attendance.isPaying,
+                    AttendanceConstant.date : attendance.date
+                ])
+            return true
+        } catch {
+            print("\(error.localizedDescription)")
+            return false
+        }
+    } // - updateAttendance
 }
 
 enum StoreError: Error {
