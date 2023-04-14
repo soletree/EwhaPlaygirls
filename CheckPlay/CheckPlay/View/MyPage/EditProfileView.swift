@@ -11,6 +11,9 @@ struct EditProfileView: View {
     @EnvironmentObject var userStore: UserStore
     
     @State var isAlertUnregistreUser: Bool = false
+    @State var isPresentedSuccessAlertDeleteUser: Bool = false
+    
+    @State var alertMessage: String = "탈퇴되었습니다. \n 감사합니다."
     var body: some View {
         VStack(alignment: .leading) {
             Divider()
@@ -28,9 +31,23 @@ struct EditProfileView: View {
             }
             Button(role: .destructive, action: {
                 // unregister user
+                Task {
+                    let result = await userStore.deleteUser()
+                    if result {
+                        alertMessage = "탈퇴되었습니다. \n 감사합니다."
+                        
+                    } else {
+                        alertMessage = "알 수 없는 오류가 발생했습니다. 다시 시도해주세요!"
+                    }
+                    isPresentedSuccessAlertDeleteUser = true
+                    userStore.logOut()
+                }
             }) {
                 Text("탈퇴하기")
             }
+        }
+        .alert(alertMessage, isPresented: $isPresentedSuccessAlertDeleteUser) {
+        
         }
     }
     
