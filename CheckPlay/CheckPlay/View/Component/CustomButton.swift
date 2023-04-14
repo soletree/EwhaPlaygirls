@@ -67,10 +67,6 @@ struct CustomButton {
                         .foregroundColor(.customGreen)
                         .frame(width: UIScreen.screenWidth * screenSizeRatio.0, height: UIScreen.screenHeight * screenSizeRatio.1)
                     
-//                    RoundedRectangle(cornerRadius: 10)
-//                        .stroke(Color.customLightGreen, lineWidth: 3)
-//                        .frame(width: UIScreen.screenWidth * 0.8, height: UIScreen.screenHeight * 0.07)
-                    
                     Text("\(buttonText)")
                         .font(buttonTextSize)
                         .foregroundColor(.white)
@@ -78,10 +74,32 @@ struct CustomButton {
                 }
             }
         }
-    }
+        
+        public func disable(_ isDisable: Bool) -> some View {
+            if isDisable {
+                return
+                AnyView(ZStack {
+                    RoundedRectangle(cornerRadius: 10)
+                        .foregroundColor(.customLightGray)
+                        .frame(width: UIScreen.screenWidth * screenSizeRatio.0, height: UIScreen.screenHeight * screenSizeRatio.1)
+                    
+                    Text("\(buttonText)")
+                        .font(buttonTextSize)
+                        .foregroundColor(.white)
+                    
+                })
+            } else {
+                return AnyView(body)
+            }
+        }
+        
+    } // - CustomButtonView
+    
+    
     
     init(style: CustomButtonStyle, action: @escaping () -> Void) {
         customButton = .init(style: style, action: action)
     }
 }
+
 
