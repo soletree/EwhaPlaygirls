@@ -20,7 +20,7 @@ struct TypePasswordView: View {
     @State var isPresentedTypePasswordAlert: Bool = false
     @State var isProcessingSignUp: Bool = false
     
-    @State var alertOfTypePasswordView: AlertToast = .init(displayMode: .alert, type: .error(.red))
+    @State var alertOfTypePasswordView: Alert = .init(title: Text(""))
     
     var isEqualPasswordAndConfirmPassword: Bool {
         userPassword == userConfirmPassword
@@ -64,19 +64,15 @@ struct TypePasswordView: View {
                     let result = await userStore.signUp(email: signUpInfo.email, password: userPassword, name: signUpInfo.name, studentCode: signUpInfo.studentCode)
                     
                     if !result {
-                        alertOfTypePasswordView = .init(displayMode: .alert, type: .error(.red), title: "회원가입에 실패했어요. 다시 시도해주세요.")
+                        alertOfTypePasswordView = Alert(title: Text("회원가입에 실패했어요. 다시 시도해주세요."))
                     }
                     else {
-                        alertOfTypePasswordView = .init(displayMode: .alert, type: .complete(.green), title: "회원가입을 완료했어요.")
+                        alertOfTypePasswordView = Alert(title: Text("회원가입이 완료되었습니다!"), dismissButton: .cancel(Text("확인"), action: {dismiss()}))
                     }
+                    
+                    
+                    isPresentedTypePasswordAlert = true
                     isProcessingSignUp = false
-                    
-                    
-                    if result {
-                        isPresentedTypePasswordAlert = true
-                    } else {
-                        
-                    }
 //                    // FIXME: toastAlert이 뜨고 난 후에 dismiss 시키기 위해 해둔 처리이긴 한데, 약간 부자연스러운 부분이 있음
 //                    DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
 //                        if result {
@@ -100,7 +96,7 @@ struct TypePasswordView: View {
             AlertToast(displayMode: .alert, type: .loading)
         }
         .alert(isPresented: $isPresentedTypePasswordAlert) {
-            Alert(title: Text("회원가입이 완료되었습니다!"), dismissButton: .cancel(Text("확인"), action: {dismiss()}))
+            alertOfTypePasswordView
         }
         
     }
