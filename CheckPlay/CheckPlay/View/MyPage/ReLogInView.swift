@@ -18,6 +18,7 @@ struct ReLogInView: View {
     var body: some View {
         VStack {
             CustomTextField(style: .secure, title: "비밀번호를 입력하세요", text: $password).customTextField
+                .padding(.bottom, 10)
             
             CustomButton(style: .plain) {
                 Task {
