@@ -7,6 +7,7 @@
 
 import SwiftUI
 import AlertToast
+import GoogleMobileAds
 
 struct MyPageView: View {
     @EnvironmentObject var userStore: UserStore
@@ -34,26 +35,43 @@ struct MyPageView: View {
     @State var isPresentedContactMailSheet: Bool = false
     @State var isAlertContactMail: Bool = false
     var body: some View {
-        VStack(alignment: .leading) {
+        VStack {
             
-            Text("\(name)님")
-                .foregroundColor(.customGreen)
-                .font(.largeTitle.bold()) +
-            Text(" (\(studentCode))")
-                .foregroundColor(.customLightGray)
-                .font(.title.bold())
-            Text("환영합니다!")
-                .font(.largeTitle.bold())
-            
-            
-            sectionOfEditProfile
-            sectionOfContact
-            sectionOfLogOut
+            VStack(alignment: .leading) {
+                Text("\(name)님")
+                    .foregroundColor(.customGreen)
+                    .font(.largeTitle.bold()) +
+                Text(" (\(studentCode))")
+                    .foregroundColor(.customLightGray)
+                    .font(.title.bold())
+                Text("환영합니다!")
+                    .font(.largeTitle.bold())
+                
+                
+                sectionOfEditProfile
+                sectionOfContact
+                sectionOfLogOut
+                
+                // 버전 정보입니다.
+                Divider()
+                Text("버전 정보 v1.0.1")
+                    .font(.caption)
+                    .foregroundColor(.customLightGray)
+                
+                
+            } // - VStack
+            .padding([.horizontal, .top], 20)
             
             Spacer()
+            
+            // 광고 섹션입니다.
+            GoogleAdView()
+                .frame(width: UIScreen.screenWidth, height: GADPortraitAnchoredAdaptiveBannerAdSizeWithWidth(UIScreen.screenWidth).size.height)
+                
            
         } // - VStack
-        .padding(20)
+        
+        
         // ContactMailSheet입니다. 
         .sheet(isPresented: $isPresentedContactMailSheet, content: {
             ContactMailView(data: .constant(composeMailData)) { result in
@@ -115,7 +133,7 @@ struct MyPageView: View {
                 Text("회원정보 수정")
                     .foregroundColor(.black)
             }
-        }
+        } // - VStack
     } // - sectionOfEditProfile
     
     //MARK: - View(sectionOfContact)
@@ -132,7 +150,7 @@ struct MyPageView: View {
                 Text("문의하기")
                     .foregroundColor(.black)
             }
-        }
+        } // - VStack
     } // - sectionOfContact
     
     //MARK: - View(sectionOfLogOut)
@@ -145,8 +163,7 @@ struct MyPageView: View {
                 Text("로그아웃하기")
                     .foregroundColor(.black)
             }
-            
-        }
+        } // - VStack
     } // - sectionOfLogOut
     
     
