@@ -8,7 +8,8 @@ import SwiftUI
 import FirebaseCore
 import FirebaseAuth
 import NMapsMap
-
+import GoogleMobileAds
+import AppTrackingTransparency
 
 class AppDelegate: NSObject, UIApplicationDelegate {
     func application(_ application: UIApplication,
@@ -39,15 +40,16 @@ struct CheckPlayApp: App {
                     .environmentObject(scheduleStore)
                     .environmentObject(attendanceStore)
                     .environmentObject(requestStore)
-                    .task {
-                        // 이미 로그인한 상태면
-                        guard let currentUser = Auth.auth().currentUser else { return }
-                        await userStore.fetchUser(uid: currentUser.uid)
-                        await scheduleStore.fetchScheduleOnToday()
-                        userStore.isLogin = true
-                    }
+                    
             
         }
+    }
+    
+    init() {
+        GADMobileAds.sharedInstance().start(completionHandler: nil)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+              ATTrackingManager.requestTrackingAuthorization(completionHandler: { _ in })
+            }
     }
 }
 
