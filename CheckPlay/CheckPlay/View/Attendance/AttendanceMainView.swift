@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import GoogleMobileAds
 
 struct AttendanceMainView: View {
     @EnvironmentObject var attendanceStore: AttendanceStore
@@ -18,13 +19,22 @@ struct AttendanceMainView: View {
                     AttendanceRow(attendance: .constant(attendance))
                 }
             }
+            Spacer()
+            
+            
+            // 광고 부분입니다. 
+            GoogleAdView()
+                .frame(width: UIScreen.main.bounds.width, height: GADPortraitAnchoredAdaptiveBannerAdSizeWithWidth(UIScreen.main.bounds.width).size.height)
+            
+                .navigationTitle("출석현황")
+                .navigationBarTitleDisplayMode(.large)
         } // - VStack
         .task {
-            await attendanceStore.fetchAttendance(studentCode: userStore.currentUser?.studentCode ?? "")
+            await attendanceStore.fetchAttendances(studentCode: userStore.currentUser?.studentCode ?? "")
         }
         .refreshable {
             Task {
-                await attendanceStore.fetchAttendance(studentCode: userStore.currentUser?.studentCode ?? "")
+                await attendanceStore.fetchAttendances(studentCode: userStore.currentUser?.studentCode ?? "")
             }
         }
     }
@@ -37,26 +47,6 @@ struct AttendanceDetailView: View {
             Text("\(attendance.studentCode)")
             Text("\(attendance.date)")
             Text("\(attendance.attendanceStatus.rawValue)")
-        }
-    }
-}
-
-struct AttendanceStatusComponentSetting {
-    var attendanceStatus: AttendanceStatus
-    var color: Color {
-        switch attendanceStatus {
-        case .attendance:
-            return .green
-        case .late:
-            return .orange
-        case .absent:
-            return .red
-        case .officialAbsent:
-            return .black
-        case .cancledByWeather:
-            return .indigo
-        case .cancledByCoach:
-            return .indigo
         }
     }
 }
@@ -75,12 +65,19 @@ struct AttendanceRow: View {
             }
             Spacer()
             
-            Text("\(attendance.attendanceStatus.rawValue)")
-                .foregroundColor(AttendanceStatusComponentSetting(attendanceStatus: attendance.attendanceStatus).color)
-                .bold()
+            // 출결 상태
+            VStack {
+                Text("\(attendance.attendanceStatus.rawValue)")
+                    .foregroundColor(AttendanceStatusComponentSetting(attendanceStatus: attendance.attendanceStatus).color)
+                    .bold()
+                // 지각이면 지각한 시간도 함께 표시합니다.
+                if attendance.attendanceStatus == .late {
+                    Text("\(attendance.lateTime)분")
+                        .bold()
+                }
+            } // - VStack
                 
-                .navigationTitle("출석현황")
-        }
+        } // - HStack
     }
     
 }
