@@ -14,9 +14,15 @@ struct AttendanceMainView: View {
     
     var body: some View {
         VStack {
-            List {
-                ForEach(attendanceStore.attendances, id: \.self.id) { attendance in
-                    AttendanceRow(attendance: .constant(attendance))
+            if attendanceStore.attendances.isEmpty {
+                Spacer()
+                EmptyAttendanceView()
+            } else {
+                
+                List {
+                    ForEach(attendanceStore.attendances, id: \.self.id) { attendance in
+                        AttendanceRow(attendance: .constant(attendance))
+                    }
                 }
             }
             Spacer()
@@ -24,7 +30,8 @@ struct AttendanceMainView: View {
             
             // 광고 부분입니다. 
             GoogleAdView()
-                .frame(width: UIScreen.main.bounds.width, height: GADPortraitAnchoredAdaptiveBannerAdSizeWithWidth(UIScreen.main.bounds.width).size.height)
+                .frame(width: UIScreen.main.bounds.width,
+                       height: GADPortraitAnchoredAdaptiveBannerAdSizeWithWidth(UIScreen.main.bounds.width).size.height)
             
                 .navigationTitle("출석현황")
                 .navigationBarTitleDisplayMode(.large)

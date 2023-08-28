@@ -13,23 +13,35 @@ struct RequestView: View {
     @EnvironmentObject var scheduleStore: ScheduleStore
     
 //    @State var isPresentedAddRequestSheet: Bool = false
-    @State var pickedSchedule: Schedule = DefaultValue.defaultSchedule
+    @State var pickedSchedule: Schedule = .defaultModel
     @State var isPresentedAddRequestAlert: Bool = false
-    @State var toastAlert: AlertToast = .init(displayMode: .alert, type: .complete(.green))
+    @State var toastAlert: AlertToast = .init(displayMode: .alert,
+                                              type: .complete(.green))
+    
     var body: some View {
         VStack {
-            List{
-                ForEach(scheduleStore.schedules, id: \.self.id) { schedule in
-                        RequestRow(pickedSchedule: .constant(schedule), schedule: schedule, isPresentedAddRequestAlert: $isPresentedAddRequestAlert, toastAlert: $toastAlert)
+            
+            if scheduleStore.schedules.isEmpty {
+                Spacer()
+                EmptyRequestView()
+            } else {
+                List{
+                    ForEach(scheduleStore.schedules, id: \.self.id) { schedule in
+                        RequestRow(pickedSchedule: .constant(schedule),
+                                   schedule: schedule,
+                                   isPresentedAddRequestAlert: $isPresentedAddRequestAlert,
+                                   toastAlert: $toastAlert)
                         
+                    }
+                    
                 }
-                
             }
             
             
             Spacer()
             GoogleAdView()
-                .frame(width: UIScreen.main.bounds.width, height: GADPortraitAnchoredAdaptiveBannerAdSizeWithWidth(UIScreen.main.bounds.width).size.height)
+                .frame(width: UIScreen.main.bounds.width,
+                       height: GADPortraitAnchoredAdaptiveBannerAdSizeWithWidth(UIScreen.main.bounds.width).size.height)
             
             .navigationTitle("공결 신청")
             .navigationBarTitleDisplayMode(.large)
@@ -73,7 +85,7 @@ struct RequestRow: View {
                     ProgressView()
                 } else {
                     Image(systemName: isAlreadyInRequest ? "checkmark.circle.fill" : "minus.circle.fill")
-                        .foregroundColor( isAlreadyInRequest ? .green : .yellow)
+                        .foregroundColor(isAlreadyInRequest ? .green : .yellow)
                         .font(.title3)
                 }
                 
@@ -102,18 +114,25 @@ struct RequestRow: View {
             
             .sheet(isPresented: $isPresentedAddRequestSheet) {
                 if #available(iOS 16.0, *) {
-                    RequestDetailView(pickedSchedule: $pickedSchedule, isPresentedAddRequestAlert: $isPresentedAddRequestAlert, isAlreadyInRequest: $isAlreadyInRequest, toastAlert: $toastAlert)
+                    RequestDetailView(pickedSchedule: $pickedSchedule,
+                                      isPresentedAddRequestAlert: $isPresentedAddRequestAlert,
+                                      isAlreadyInRequest: $isAlreadyInRequest,
+                                      toastAlert: $toastAlert)
                         .presentationDetents(isAlreadyInRequest ? [.fraction(0.45)] : [.medium])
                         .presentationDragIndicator(.visible)
                         
                 } else {
-                    RequestDetailView(pickedSchedule: $pickedSchedule, isPresentedAddRequestAlert: $isPresentedAddRequestAlert, isAlreadyInRequest: $isAlreadyInRequest, toastAlert: $toastAlert)
+                    RequestDetailView(pickedSchedule: $pickedSchedule,
+                                      isPresentedAddRequestAlert: $isPresentedAddRequestAlert,
+                                      isAlreadyInRequest: $isAlreadyInRequest,
+                                      toastAlert: $toastAlert)
                 }
                     
             }
             .task {
                 isProcessingWithFetch = true
-                isAlreadyInRequest = await requestStore.isAlreadyInRequest(scheduleID: pickedSchedule.id, studentCode: studentCode)
+                isAlreadyInRequest = await requestStore.isAlreadyInRequest(scheduleID: pickedSchedule.id,
+                                                                           studentCode: studentCode)
                 isProcessingWithFetch = false
         }
         
@@ -218,7 +237,8 @@ struct RequestDetailView: View {
                     
                     switch fetchResult {
                     case .success(let result):
-                        let updateResult = await attendanceStore.updateAttendance(attendanceID: result, attendanceStatus: .officialAbsent)
+                        let updateResult = await attendanceStore.updateAttendance(attendanceID: result,
+                                                                                  attendanceStatus: .officialAbsent)
                     case .failure(_):
                         toastAlert.type = .error(.red)
                         toastAlert.title = "신청 중 오류가 발생했습니다! 다시 시도해주세요."

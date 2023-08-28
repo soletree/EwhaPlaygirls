@@ -37,8 +37,10 @@ struct TypePasswordView: View {
             Spacer()
             
             
-            CustomTextField(style: .secure, title: "비밀번호를 입력해주세요", text: $userPassword).customTextField
-            CustomTextField(style: .secure, title: "비밀번호를 한 번 더 입력해주세요", text: $userConfirmPassword).customTextField
+            CustomTextField(style: .secure, title: "비밀번호를 입력해주세요",
+                            text: $userPassword).customTextField
+            CustomTextField(style: .secure, title: "비밀번호를 한 번 더 입력해주세요",
+                            text: $userConfirmPassword).customTextField
             
             
             if userPassword.isEmpty && userConfirmPassword.isEmpty {

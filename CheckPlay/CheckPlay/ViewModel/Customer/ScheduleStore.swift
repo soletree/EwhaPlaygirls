@@ -94,10 +94,3 @@ class ScheduleStore: ObservableObject {
         }
     } // - fetchSchedulesUntilThreeDaysLater
 }
-
-
-
-enum Period: Int {
-    case firstHalf = 3
-    case secondHalf = 9
-}

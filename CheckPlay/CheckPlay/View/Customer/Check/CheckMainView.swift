@@ -41,7 +41,8 @@ struct CheckMainView: View {
         VStack(alignment: .leading) {
             // 현재 날짜
             Text("\(Date().toStringUntilDay())")
-                .font(.title.bold())
+                .font(.system(size: 25,
+                              weight: .semibold))
                 .padding(10)
             
             if scheduleStore.scheduleOfToday != nil {
@@ -67,6 +68,7 @@ struct CheckMainView: View {
                         ProgressView()
                     }
                 }
+                .padding(10)
             
             
 //            // nfc 버튼

@@ -26,6 +26,11 @@ struct MyPageView: View {
               message: "")
     }
     
+    var versionInformation: String {
+        let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "0.0.0"
+        return version
+    }
+    
     @State var isProcessing: Bool = false
     @State var isPresentedLogOutFailureToastAlert: Bool = false
     @State var toastAlertWithLogOut: AlertToast = .init(displayMode: .alert, type: .error(.red))
@@ -46,15 +51,17 @@ struct MyPageView: View {
                     .font(.title.bold())
                 Text("환영합니다!")
                     .font(.largeTitle.bold())
+                    .padding(.bottom, 15)
                 
                 
                 sectionOfEditProfile
                 sectionOfContact
                 sectionOfLogOut
+                sectionOfMasterMode
                 
                 // 버전 정보입니다.
                 Divider()
-                Text("버전 정보 v1.0.1")
+                Text("버전 정보 v\(versionInformation)")
                     .font(.caption)
                     .foregroundColor(.customLightGray)
                 
@@ -128,7 +135,6 @@ struct MyPageView: View {
     //MARK: - View(sectionOfEditProfile)
     private var sectionOfEditProfile: some View {
         VStack(alignment: .leading) {
-            Divider()
             NavigationLink(destination: EditProfileRouteView().environmentObject(userStore)) {
                 Text("회원정보 수정")
                     .foregroundColor(.black)
@@ -166,6 +172,15 @@ struct MyPageView: View {
         } // - VStack
     } // - sectionOfLogOut
     
+    private var sectionOfMasterMode: some View {
+        VStack(alignment: .leading) {
+            Divider()
+            NavigationLink(destination: SingUpWithMaster()) {
+                Text("관리자 모드로 전환하기")
+                    .foregroundColor(.black)
+            }
+        }
+    }
     
 }
 

@@ -77,7 +77,8 @@ class AttendanceStore: ObservableObject {
     } // - fetchAttendance
     
     //MARK: - Method(fetchScheduleInPeriod)
-    func fetchScheduleInPeriod(year: Int, period: Period) async -> Bool {
+    func fetchScheduleInPeriod(year: Int,
+                               period: Period) async -> Bool {
         let calendar = Calendar.current
         let nowTimeStamp = Timestamp(date: .init())
         var startDate: Date = .init()
@@ -85,11 +86,19 @@ class AttendanceStore: ObservableObject {
         
         switch period {
         case .firstHalf:
-            startDate = calendar.date(from: DateComponents(year: year, month: 3, day: 1)) ?? Date()
-            endDate = calendar.date(from: DateComponents(year: year, month: 9 , day: 1)) ?? Date()
+            startDate = calendar.date(from: DateComponents(year: year,
+                                                           month: 3,
+                                                           day: 1)) ?? Date()
+            endDate = calendar.date(from: DateComponents(year: year,
+                                                         month: 9 ,
+                                                         day: 1)) ?? Date()
         case.secondHalf:
-            startDate = calendar.date(from: DateComponents(year: year, month: 9, day: 1)) ?? Date()
-            endDate = calendar.date(from: DateComponents(year: year + 1, month: 3, day: 1)) ?? Date()
+            startDate = calendar.date(from: DateComponents(year: year,
+                                                           month: 9,
+                                                           day: 1)) ?? Date()
+            endDate = calendar.date(from: DateComponents(year: year + 1,
+                                                         month: 3,
+                                                         day: 1)) ?? Date()
         }
         
         do {
@@ -120,7 +129,9 @@ class AttendanceStore: ObservableObject {
     } // - fetchScheduleInPeriod
     
     //MARK: - Method(updateAttendance)
-    func updateAttendance(attendanceID: String, attendanceStatus: AttendanceStatus, lateTime: Int = 0) async -> Bool {
+    func updateAttendance(attendanceID: String,
+                          attendanceStatus: AttendanceStatus,
+                          lateTime: Int = 0) async -> Bool {
         do {
             try await database.collection("Attendance")
                 .document(attendanceID)
@@ -129,10 +140,6 @@ class AttendanceStore: ObservableObject {
             try await database.collection("Attendance")
                 .document(attendanceID)
                 .updateData([AttendanceConstant.lateTime : lateTime])
-//            try await database.collection("Attendance")
-//                .document(attendanceID)
-//                .setValue(AttendanceConstant.lateTime, forKey: lateTime)
-            
             
             return true
         } catch {
@@ -141,7 +148,8 @@ class AttendanceStore: ObservableObject {
         }
     } // - updateAttendance
     
-    func findAttendanceWithScheduleID(scheduleID: String, studentCode: String) async -> Result<String, StoreError> {
+    func findAttendanceWithScheduleID(scheduleID: String,
+                                      studentCode: String) async -> Result<String, StoreError> {
         do {
             let snapshot = try await database.collection("Attendance")
                 .whereField(AttendanceConstant.scheduleID, isEqualTo: scheduleID)

@@ -38,7 +38,9 @@ struct TypeEmailView: View {
             
             
             VStack(alignment: .center) {
-                CustomTextField(style: .email, title: "이메일을 입력해주세요", text: $userEmail).customTextField
+                CustomTextField(style: .email,
+                                title: "이메일을 입력해주세요",
+                                text: $userEmail).customTextField
                 
                 CustomButton(style: .plain, action: {
                     Task {

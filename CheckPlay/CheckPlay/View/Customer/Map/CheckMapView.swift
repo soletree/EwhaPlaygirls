@@ -13,8 +13,8 @@ import AlertToast
 struct CheckMapView: View {
     @EnvironmentObject var scheduleStore: ScheduleStore
     @EnvironmentObject var attendanceStore: AttendanceStore
-    var circleCenter: CLLocationCoordinate2D = .init(latitude: 37.5666102, longitude: 126.9783881)
-    var circleRadius: Double = 20
+    var circleCenter: CLLocationCoordinate2D = .init(latitude: 37, longitude: 126)
+    var circleRadius: Double = 30
     var locationManager = CLLocationManager()
     @State var isPresentedAttendanceAlert: Bool = false
     @State var attendanceAlert = AlertToast(displayMode: .alert, type: .complete(.green))

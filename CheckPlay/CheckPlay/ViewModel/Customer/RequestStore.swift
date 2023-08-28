@@ -32,7 +32,8 @@ class RequestStore: ObservableObject {
     } // - addRequest
     
     //MARK: - Method(isAlreadyInRequest)
-    func isAlreadyInRequest(scheduleID: String, studentCode: String) async -> Bool {
+    func isAlreadyInRequest(scheduleID: String,
+                            studentCode: String) async -> Bool {
         do {
             let snapshot = try await database.collection("Request")
                 .whereField(RequestConstant.id, isEqualTo: "\(scheduleID)_\(studentCode)")
