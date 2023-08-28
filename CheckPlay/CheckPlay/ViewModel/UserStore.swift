@@ -35,9 +35,15 @@ class UserStore: ObservableObject {
     /// UserStore에서 관련된 로직을 처리하다가 에러가 발생하면 true로 설정됩니다.
     @Published var isError: Bool = false
     
+    /// 관리자 모드로 전환하는지 확인하는 Bool 값입니다.
+    @Published var isPresentedAdmin: Bool = false
+    
     
     /// 회원가입 로직을 처리하는 메서드입니다.
-    func signUp(email: String, password: String, name: String, studentCode: String) async -> Bool {
+    func signUp(email: String,
+                password: String,
+                name: String,
+                studentCode: String) async -> Bool {
         
         let firebaseSignUpResult = await firebaseSignUp(email: email, password: password)
         
@@ -61,7 +67,8 @@ class UserStore: ObservableObject {
     //MARK: - Method(signUp)
     /// 파이어베이스를 통한 회원가입 메서드입니다.
     /// 반환값: 회원가입 성공 여부 (Bool)
-    func firebaseSignUp(email: String, password: String) async -> Result<AuthDataResult, SignUpError> {
+    func firebaseSignUp(email: String,
+                        password: String) async -> Result<AuthDataResult, SignUpError> {
         do {
             let result = try await Auth.auth().createUser(withEmail: email, password: password)
             return .success(result)
@@ -96,7 +103,8 @@ class UserStore: ObservableObject {
     //MARK: - Method(verifyStudentCode)
     /// db 상에 등록된 학번과 이름인지 검증하는 메서드입니다.
     /// 반환값: 검증 완료 여부 (검증되었으면 true 반환)
-    func isValidStudentCode(name: String, studentCode: String) async -> Bool {
+    func isValidStudentCode(name: String,
+                            studentCode: String) async -> Bool {
         guard !studentCode.isEmpty else { return false }
         do {
             let document = try await database.collection("Member").document("\(studentCode)")
@@ -147,7 +155,8 @@ class UserStore: ObservableObject {
     //MARK: - Method(login)
     /// FirebaseAuth를 통해 로그인하는 메서드입니다.
     /// 반환값: 로그인 성공 여부 (Bool)
-    func logIn(email: String, password: String) async -> Bool {
+    func logIn(email: String,
+               password: String) async -> Bool {
         do {
             let authResult = try await Auth.auth().signIn(withEmail: email, password: password)
             
