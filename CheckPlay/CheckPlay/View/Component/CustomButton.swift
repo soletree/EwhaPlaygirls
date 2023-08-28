@@ -18,6 +18,7 @@ struct CustomButton {
         case logout
         case signUp
         case verifyEmail
+        case change
     }
    
     let customButton: CustomButtonView
@@ -41,7 +42,10 @@ struct CustomButton {
                 return "회원가입"
             case .verifyEmail:
                 return "확인"
+            case .change:
+                return "변경하기"
             }
+            
             
         }
         private var screenSizeRatio: (Double, Double) {

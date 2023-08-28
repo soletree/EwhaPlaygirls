@@ -21,7 +21,11 @@ struct Schedule {
         .init(latitude: self.latitude, longitude: self.longitude)
     } // 모임 장소
     
-    init(id: String, date: Date, latitude: Double, longitude: Double, address: String, detailedAddress: String) {
+    init(id: String,
+         date: Date,
+         latitude: Double,
+         longitude: Double, address: String,
+         detailedAddress: String) {
         self.id = id
         self.date = date
         self.latitude = latitude
@@ -29,4 +33,11 @@ struct Schedule {
         self.address = address
         self.detailedAddress = detailedAddress
     }
+    
+    static let defaultModel = Schedule(id: "unknown",
+                                       date: Date(),
+                                       latitude: 0,
+                                       longitude: 0,
+                                       address: "unknown",
+                                       detailedAddress: "unknown")
 }
