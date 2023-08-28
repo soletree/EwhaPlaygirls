@@ -23,6 +23,8 @@ struct AttendanceStatusComponentSetting {
             return .indigo
         case .cancledByCoach:
             return .indigo
+        case .rest:
+            return .purple
         }
     }
 }
