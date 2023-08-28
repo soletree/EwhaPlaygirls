@@ -1,5 +1,5 @@
 # EwhaPlaygirls
-이화플레이걸스에서 사용하는 출석체크 앱입니다. (버전 1.0.1) <br><br> 
+이화플레이걸스에서 사용하는 출석체크 앱입니다. (버전 1.0.2) <br><br> 
 
 - 노션 링크<br>
 https://www.notion.so/check-it/EwhaPlaygirls-4e6508b879944096b73c2d7364a3f7b5
