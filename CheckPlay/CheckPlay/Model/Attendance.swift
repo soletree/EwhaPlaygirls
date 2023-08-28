@@ -14,6 +14,7 @@ enum AttendanceStatus: String {
     case officialAbsent = "공결" // 공결
     case cancledByWeather = "우천 취소" // 우천 취소
     case cancledByCoach = "감독 취소" // 감독 취소
+    case rest = "휴동" // 휴동
 }
 
 
@@ -25,4 +26,12 @@ struct Attendance {
     var lateTime: Int // 지각한 시간(분)
     var isPaying: Bool // 지각비 정산 여부
     var date: Date
+    
+    static let defaultModel = Attendance(id: "unknown",
+                                         studentCode: "unknown",
+                                         scheduleID: "unknown",
+                                         attendanceStatus: .absent,
+                                         lateTime: 0,
+                                         isPaying: false,
+                                         date: Date())
 }
