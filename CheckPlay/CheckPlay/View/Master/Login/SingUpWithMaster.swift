@@ -32,11 +32,15 @@ struct SingUpWithMaster: View {
                 .foregroundColor(.customGray)
                 .padding(.bottom, 20)
             
-            CustomTextField(style: .plain, title: "아이디를 입력해주세요", text: $masterID)
-                .customTextField
-            CustomTextField(style: .secure, title: "비밀번호를 입력해주세요", text: $masterPassword)
-                .customTextField
-                .padding(.bottom, 20)
+            CustomTextField(style: .plain,
+                            title: "아이디를 입력해주세요",
+                            text: $masterID)
+                            .customTextField
+            CustomTextField(style: .secure,
+                            title: "비밀번호를 입력해주세요",
+                            text: $masterPassword)
+                            .customTextField
+                            .padding(.bottom, 20)
             
             
             CustomButton(style: .plain){
@@ -59,10 +63,13 @@ struct SingUpWithMaster: View {
         }
         .disabled(isProcessing)
         .toast(isPresenting: $isProcessing) {
-            AlertToast(displayMode: .alert, type: .loading)
+            AlertToast(displayMode: .alert,
+                       type: .loading)
         }
         .toast(isPresenting: $isPresentedLoginErrorAlert) {
-            AlertToast(displayMode: .alert, type: .error(.red), title: "잘못된 아이디 또는 비밀번호입니다!")
+            AlertToast(displayMode: .alert,
+                       type: .error(.red),
+                       title: "잘못된 아이디 또는 비밀번호입니다!")
         }
         
         

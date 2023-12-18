@@ -101,8 +101,10 @@ struct CustomButton {
     
     
     
-    init(style: CustomButtonStyle, action: @escaping () -> Void) {
-        customButton = .init(style: style, action: action)
+    init(style: CustomButtonStyle,
+         action: @escaping () -> Void) {
+        customButton = .init(style: style,
+                             action: action)
     }
 }
 
