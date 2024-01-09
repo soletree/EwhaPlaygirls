@@ -17,7 +17,8 @@ struct CheckMapView: View {
     var circleRadius: Double = 30
     var locationManager = CLLocationManager()
     @State var isPresentedAttendanceAlert: Bool = false
-    @State var attendanceAlert = AlertToast(displayMode: .alert, type: .complete(.green))
+    @State var attendanceAlert = AlertToast(displayMode: .alert,
+                                            type: .complete(.green))
     
     
     var body: some View {

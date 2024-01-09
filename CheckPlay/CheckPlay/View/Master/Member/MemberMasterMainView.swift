@@ -24,7 +24,12 @@ struct MemberMasterMainView: View {
     
     @State var searchText: String = ""
     
-    let filterStandard: [String] = ["학번순", "이름순", "명예졸업", "정식부원", "신입부원", "휴동"]
+    let filterStandard: [String] = ["학번순",
+                                    "이름순",
+                                    "명예졸업",
+                                    "정식부원",
+                                    "신입부원",
+                                    "휴동"]
     @State var selectedStandard: String = "학번순"
     
     var body: some View {
@@ -232,7 +237,10 @@ struct MemberRow: View {
 //MARK: - View(EditMemberView)
 /// 멤버 정보를 변경할 수 있는 뷰입니다.
 struct EditMemberView: View {
-    let memberStatusList: [MemberStatus] = [.new, .official, .graduated, .rest]
+    let memberStatusList: [MemberStatus] = [.new,
+                                            .official,
+                                            .graduated,
+                                            .rest]
     @EnvironmentObject var memberStore: MemberMasterStore
     
     @State var isProcessing: Bool = false
@@ -253,7 +261,9 @@ struct EditMemberView: View {
                 .font(.system(size: 32, weight: .semibold))
             
             VStack {
-                CustomTextField(style: .plain, title: "이름", text: $name).customTextField
+                CustomTextField(style: .plain,
+                                title: "이름",
+                                text: $name).customTextField
                 
                 Text("\(member.studentCode)")
                 
@@ -301,7 +311,8 @@ struct EditMemberView: View {
             memberStatus = member.memberStatus
         }
         .toast(isPresenting: $isProcessing) {
-            AlertToast(displayMode: .alert, type: .loading)
+            AlertToast(displayMode: .alert,
+                       type: .loading)
         }
         .alert("정말로 삭제하시겠어요?", isPresented: $isPresentedDeleteMemeberAlert) {
             Button(role: .cancel, action: {}) {

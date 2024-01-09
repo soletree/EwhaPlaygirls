@@ -34,22 +34,28 @@ struct PickAddressWithMapView: View {
                 .padding(20)
             }
             if webViewModel.result == nil {
-                WebView(url: "https://soletree.github.io/postNum/", viewModel: webViewModel)
+                WebView(url: "https://soletree.github.io/postNum/",
+                        viewModel: webViewModel)
                     .onDisappear {
                         locationManager.address = webViewModel.jibunAddress
                         Task {
-                            guard let address = locationManager.address else { return }
+                            guard let address = locationManager.address 
+                            else { return }
                             self.address = locationManager.address
                             let coordinate = await addressToCoordinate(address: address)
                             self.coordinateList = coordinate
-                            self.coordinate = CLLocationCoordinate2DMake(coordinate[0], coordinate[1])
+                            self.coordinate = CLLocationCoordinate2DMake(coordinate[0],
+                                                                         coordinate[1])
                             action = 1
                         }
                     }
             }
             else {
                 NavigationView {
-                    NavigationLink(destination: MapViewSelection(locationManager: locationManager, coordinate: coordinate ?? CLLocationCoordinate2DMake(0, 0)), tag: 1, selection: $action) {}
+                    NavigationLink(destination: MapViewSelection(locationManager: locationManager,
+                                                                 coordinate: coordinate ?? CLLocationCoordinate2DMake(0, 0)),
+                                   tag: 1,
+                                   selection: $action) {}
                         
                 }
                 .navigationBarBackButtonHidden(true)
@@ -62,10 +68,13 @@ struct PickAddressWithMapView: View {
                 
                 if locationManager.pickedPlacemark == nil {
                     Text(locationManager.address ?? "")
-                } else { Text(returnPostalAddress(placemark: locationManager.pickedPlacemark!))}
+                } else {
+                    Text(returnPostalAddress(placemark: locationManager.pickedPlacemark!))
+                }
                 VStack {
                     CustomButton(style: .plain, action: {
-                        guard let placemark = locationManager.pickedPlacemark else { return }
+                        guard let placemark = locationManager.pickedPlacemark 
+                        else { return }
                         let latitude = placemark.location?.coordinate.latitude as? Double ?? 0
                         let longitude = placemark.location?.coordinate.longitude as? Double ?? 0
                         
