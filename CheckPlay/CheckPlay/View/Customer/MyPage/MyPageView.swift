@@ -7,7 +7,6 @@
 
 import SwiftUI
 import AlertToast
-import GoogleMobileAds
 
 struct MyPageView: View {
     @EnvironmentObject var userStore: UserStore

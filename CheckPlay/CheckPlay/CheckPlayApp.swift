@@ -8,7 +8,6 @@ import SwiftUI
 import FirebaseCore
 import FirebaseAuth
 import NMapsMap
-import GoogleMobileAds
 import AppTrackingTransparency
 
 class AppDelegate: NSObject, UIApplicationDelegate {

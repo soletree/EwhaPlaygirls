@@ -13,7 +13,7 @@ struct LaunchScreenView: View {
             LottieView(name: "loading-airplane-green")
                 .frame(height: UIScreen.screenHeight * 0.3)
                 
-            Text("로그인 중이에요")
+            Text("로딩 중이에요")
                 .pretendard(size: .l,
                             weight: .bold)
                 .foregroundStyle(Color.gray300)
