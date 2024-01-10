@@ -67,7 +67,6 @@ struct AttendanceRow: View {
             VStack(alignment: .leading) {
                 Text("\(attendance.date.toStringUntilDay())")
                 Text("\(attendance.date.toStringOnlyHourAndMinute())")
-                    .font(.callout)
                     .foregroundStyle(Color.gray300)
             }
             Spacer()

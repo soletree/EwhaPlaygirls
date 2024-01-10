@@ -24,13 +24,18 @@ struct TypeEmailView: View {
         VStack(alignment: .leading) {
             Spacer()
             Text("이메일 입력")
-                .font(.largeTitle.bold())
+                .pretendard(size: .xxl,
+                            weight: .semibold)
             Text("이메일을 작성해주세요 (ex.abcd@gmail.com)")
+                .pretendard(size: .xs,
+                            weight: .medium)
                 .foregroundStyle(Color.gray)
             
 
             if !userEmail.isEmpty && !isValidEmail {
                 Text("유효하지 않은 이메일 형식입니다")
+                    .pretendard(size: .xs,
+                                weight: .medium)
                     .foregroundStyle(Color.red)
             } else {
                 Text(" ")
@@ -46,6 +51,7 @@ struct TypeEmailView: View {
                     validateEmail()
                 } label: {
                     Text("다음으로")
+                        .frame(maxWidth: .infinity)
                 }
                 .disabled(!isValidEmail)
             }
@@ -58,6 +64,7 @@ struct TypeEmailView: View {
         }
     }
     
+    //MARK: - validateEmail
     func validateEmail() {
         Task {
             let result = await userStore.isValidEmail(email: userEmail)

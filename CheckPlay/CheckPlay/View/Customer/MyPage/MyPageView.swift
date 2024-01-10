@@ -44,15 +44,18 @@ struct MyPageView: View {
             
             VStack(alignment: .leading) {
                 Text("\(name)님")
+                    .pretendard(size: .xl,
+                                weight: .semibold)
                     .foregroundStyle(Color.brandColor)
-                    .font(.largeTitle.bold())
                 
                 Text(" (\(studentCode))")
+                    .pretendard(size: .xl,
+                                weight: .semibold)
                     .foregroundStyle(Color.gray200)
-                    .font(.title.bold())
                 
                 Text("환영합니다!")
-                    .font(.largeTitle.bold())
+                    .pretendard(size: .xl,
+                                weight: .semibold)
                     .padding(.bottom, 15)
                 
                 
@@ -63,7 +66,8 @@ struct MyPageView: View {
                 // 버전 정보입니다.
                 Divider()
                 Text("버전 정보 v\(versionInformation)")
-                    .font(.caption)
+                    .pretendard(size: .xxs,
+                                weight: .light)
                     .foregroundStyle(Color.gray200)
                 
                 
@@ -71,12 +75,6 @@ struct MyPageView: View {
             .padding([.horizontal, .top], 20)
             
             Spacer()
-            
-            // 광고 섹션입니다.
-//            GoogleAdView()
-//                .frame(width: UIScreen.screenWidth, height: GADPortraitAnchoredAdaptiveBannerAdSizeWithWidth(UIScreen.screenWidth).size.height)
-                
-           
         } // - VStack
         
         
