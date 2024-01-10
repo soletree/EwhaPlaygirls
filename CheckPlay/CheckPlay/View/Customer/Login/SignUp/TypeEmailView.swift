@@ -26,44 +26,47 @@ struct TypeEmailView: View {
             Text("이메일 입력")
                 .font(.largeTitle.bold())
             Text("이메일을 작성해주세요 (ex.abcd@gmail.com)")
-                .foregroundColor(.gray)
+                .foregroundStyle(Color.gray)
             
-            Spacer()
+
             if !userEmail.isEmpty && !isValidEmail {
                 Text("유효하지 않은 이메일 형식입니다")
-                    .foregroundColor(.red)
+                    .foregroundStyle(Color.red)
             } else {
                 Text(" ")
             }
             
             
             VStack(alignment: .center) {
-                CustomTextField(style: .email,
+                 EPTextField(style: .email,
                                 title: "이메일을 입력해주세요",
-                                text: $userEmail).customTextField
+                                text: $userEmail)
                 
-                CustomButton(style: .plain, action: {
-                    Task {
-                        let result = await userStore.isValidEmail(email: userEmail)
-                        if !result {
-                            isPresentedTypeEmailAlert = true
-                            return
-                        }
-                        // next phase
-                        print("가능한 이메일 ")
-                        signUpInfo.email = userEmail
-                        isTypedEmail = true
-                    }
-                }).customButton
-                    .disable(!isValidEmail)
-                    .padding(20)
-                    
+                EPButton {
+                    validateEmail()
+                } label: {
+                    Text("다음으로")
+                }
+                .disabled(!isValidEmail)
             }
             
             Spacer()
         } // - VStack
+        .padding(.horizontal, 20)
         .toast(isPresenting: $isPresentedTypeEmailAlert) {
             AlertToast(displayMode: .alert, type: .error(.red), title: "이미 가입된 이메일입니다! 다시 시도해주세요.")
+        }
+    }
+    
+    func validateEmail() {
+        Task {
+            let result = await userStore.isValidEmail(email: userEmail)
+            if !result {
+                isPresentedTypeEmailAlert = true
+                return
+            }
+            signUpInfo.email = userEmail
+            isTypedEmail = true
         }
     }
 }

@@ -37,10 +37,12 @@ struct TypePasswordView: View {
             Spacer()
             
             
-            CustomTextField(style: .secure, title: "비밀번호를 입력해주세요",
-                            text: $userPassword).customTextField
-            CustomTextField(style: .secure, title: "비밀번호를 한 번 더 입력해주세요",
-                            text: $userConfirmPassword).customTextField
+             EPTextField(style: .secure,
+                         title: "비밀번호를 입력해주세요",
+                         text: $userPassword)
+             EPTextField(style: .secure,
+                         title: "비밀번호를 한 번 더 입력해주세요",
+                         text: $userConfirmPassword)
             
             
             if userPassword.isEmpty && userConfirmPassword.isEmpty {
@@ -48,18 +50,18 @@ struct TypePasswordView: View {
             }
             else if !isValidPassword {
                 Text("사용할 수 없는 비밀번호 형식입니다!")
-                    .foregroundColor(.red)
+                    .foregroundStyle(Color.red)
             } else if !isEqualPasswordAndConfirmPassword {
                 Text("동일한 비밀번호를 입력해주세요!")
-                    .foregroundColor(.red)
+                    .foregroundStyle(Color.red)
             } else {
                 Text("사용할 수 있는 비밀번호입니다.")
-                    .foregroundColor(.green)
+                    .foregroundStyle(Color.green)
             }
             
             
             
-            CustomButton(style: .plain, action: {
+            EPButton {
                 // signUp logic
                 isProcessingSignUp = true
                 Task {
@@ -82,14 +84,15 @@ struct TypePasswordView: View {
 //                        }
 //                    }
                 }
-            }).customButton
-                .disable(isProcessingSignUp ||
+            } label: {
+                Text("다음으로")
+            }
+            .disabled(isProcessingSignUp ||
                          !isValidPassword || !isEqualPasswordAndConfirmPassword)
-                
-                .padding(20)
             
             Spacer()
         } // - VStack
+        .padding(.horizontal, 20)
         .disabled(isProcessingSignUp)
 //        .toast(isPresenting: $isPresentedTypePasswordAlert) {
 //            alertOfTypePasswordView
@@ -109,7 +112,7 @@ struct TypePasswordView: View {
             Text("비밀번호 설정")
                 .font(.largeTitle.bold())
             Text("영어 알파벳(a-Z), 숫자(0...9), 특수문자(?=.*[!@#$%^&*()_+=-]) 각각 한 글자 이상 포함, 총 6글자 이상 입력해주세요.")
-                .foregroundColor(.gray)
+                .foregroundStyle(Color.gray)
         }
         .frame(width: UIScreen.screenWidth)
     } // - header

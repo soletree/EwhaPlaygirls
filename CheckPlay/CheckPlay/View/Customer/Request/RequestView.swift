@@ -9,6 +9,7 @@ import SwiftUI
 import AlertToast
 import GoogleMobileAds
 
+// FIXME: 웹 뷰를 통한 카페글로 이동
 struct RequestView: View {
     @EnvironmentObject var scheduleStore: ScheduleStore
     
@@ -39,9 +40,9 @@ struct RequestView: View {
             
             
             Spacer()
-            GoogleAdView()
-                .frame(width: UIScreen.main.bounds.width,
-                       height: GADPortraitAnchoredAdaptiveBannerAdSizeWithWidth(UIScreen.main.bounds.width).size.height)
+//            GoogleAdView()
+//                .frame(width: UIScreen.main.bounds.width,
+//                       height: GADPortraitAnchoredAdaptiveBannerAdSizeWithWidth(UIScreen.main.bounds.width).size.height)
             
             .navigationTitle("공결 신청")
             .navigationBarTitleDisplayMode(.large)
@@ -85,7 +86,7 @@ struct RequestRow: View {
                     ProgressView()
                 } else {
                     Image(systemName: isAlreadyInRequest ? "checkmark.circle.fill" : "minus.circle.fill")
-                        .foregroundColor(isAlreadyInRequest ? .green : .yellow)
+                        .foregroundStyle(isAlreadyInRequest ? Color.green : Color.yellow)
                         .font(.title3)
                 }
                 
@@ -98,7 +99,7 @@ struct RequestRow: View {
                 Spacer()
                 Image(systemName: "chevron.backward")
                     .rotationEffect(.init(degrees: 180))
-                    .foregroundColor(.gray)
+                    .foregroundStyle(Color.gray)
                 
                 
                 
@@ -188,7 +189,7 @@ struct RequestDetailView: View {
                     .font(.title.bold())
                 Text("\(pickedSchedule.date.toStringOnlyHourAndMinute())")
                 Text("\(pickedSchedule.address) \(pickedSchedule.detailedAddress)")
-                    .foregroundColor(.customLightGray)
+                    .foregroundStyle(Color.gray200)
                 Text("공결 신청을 완료했습니다.")
                     .bold()
             }
@@ -199,7 +200,7 @@ struct RequestDetailView: View {
                 Image(systemName: "checkmark.circle.fill")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .foregroundColor(.green)
+                    .foregroundStyle(Color.green)
                     .frame(width: UIScreen.screenWidth * 0.4, height: UIScreen.screenWidth * 0.4)
             }
             .frame(width: UIScreen.screenWidth)
@@ -212,59 +213,23 @@ struct RequestDetailView: View {
         VStack {
             Text("\(pickedSchedule.date.toStringUntilDay())")
                 .font(.title.bold())
-            
-            
-            
+        
             TextEditor(text: $content)
-                .modifier(CustomTextEditorModifier(title: "사유를 입력해주세요.", text: $content))
+                .modifier(EPTextEditorModifier(title: "사유를 입력해주세요.", text: $content))
                 .padding(20)
             
             
-            Text("부적절한 내용 작성 시 제재받을 수 있습니다.")
-                .foregroundColor(.gray)
+            Text("부적절한 내용 작성 시 제재받을 수 있어요.")
+                .foregroundStyle(Color.gray)
                 .font(.callout)
             
-            CustomButton(style: .request, action: {
-                Task {
-                    isProcessing = true
-                    let request: Request = .init(id: "\(pickedSchedule.id)_\(studentCode)",
-                                                 scheduleID: pickedSchedule.id,
-                                                 studentCode: studentCode,
-                                                 content: content)
-                    
-                    let fetchResult = await attendanceStore.findAttendanceWithScheduleID(scheduleID: request.scheduleID,
-                                                                                   studentCode: request.studentCode)
-                    
-                    switch fetchResult {
-                    case .success(let result):
-                        let updateResult = await attendanceStore.updateAttendance(attendanceID: result,
-                                                                                  attendanceStatus: .officialAbsent)
-                    case .failure(_):
-                        toastAlert.type = .error(.red)
-                        toastAlert.title = "신청 중 오류가 발생했습니다! 다시 시도해주세요."
-                        return
-                    }
-                    
-                    let addResult = await requestStore.addRequest(request: request)
-                    // 에러 처리
-                   if !addResult {
-                        toastAlert.type = .error(.red)
-                        toastAlert.title = "신청 중 오류가 발생했습니다! 다시 시도해주세요."
-                        
-                        isProcessing = false
-                        isPresentedAddRequestAlert = true
-                        return
-                    }
-                    
-                    toastAlert.type = .complete(.green)
-                    toastAlert.title = "신청되었습니다!"
-                    
-                    isProcessing = false
-                    isPresentedAddRequestAlert = true
-                    dismiss()
-                }
-            }).customButton
-                .disable(isProcessing || content.isEmpty)
+            EPButton {
+                requestAbsent()
+            } label: {
+                Text("공결신청")
+                    .frame(maxWidth: .infinity)
+            }
+            .disabled(isProcessing || content.isEmpty)
                 
             
         } // - VStack
@@ -273,5 +238,50 @@ struct RequestDetailView: View {
         }
         
     } // - notRequest
+    
+    func requestAbsent() {
+        Task {
+            isProcessing = true
+            let request: Request = .init(id: "\(pickedSchedule.id)_\(studentCode)",
+                                         scheduleID: pickedSchedule.id,
+                                         studentCode: studentCode,
+                                         content: content)
+            
+            let fetchResult = await attendanceStore.findAttendanceWithScheduleID(scheduleID: request.scheduleID,
+                                                                                 studentCode: request.studentCode)
+            
+            switch fetchResult {
+            case .success(let result):
+                let updateResult = await attendanceStore.updateAttendance(attendanceID: result,
+                                                                          attendanceStatus: .officialAbsent)
+            case .failure(_):
+                toastAlert.type = .error(.red)
+                toastAlert.title = "신청 중 오류가 발생했습니다! 다시 시도해주세요."
+                return
+            }
+            
+            let addResult = await requestStore.addRequest(request: request)
+            // 에러 처리
+            if !addResult {
+                toastAlert.type = .error(.red)
+                toastAlert.title = "신청 중 오류가 발생했습니다! 다시 시도해주세요."
+                
+                isProcessing = false
+                isPresentedAddRequestAlert = true
+                return
+            }
+            
+            toastAlert.type = .complete(.green)
+            toastAlert.title = "신청되었습니다!"
+            
+            isProcessing = false
+            isPresentedAddRequestAlert = true
+            dismiss()
+        }
+    }
 }
 
+#Preview {
+    RequestView()
+        .environmentObject(ScheduleStore())
+}
