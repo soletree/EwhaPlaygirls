@@ -110,7 +110,8 @@ struct TypePasswordView: View {
     private var headerOfTypePasswordView: some View {
         VStack(alignment: .leading) {
             Text("비밀번호 설정")
-                .font(.largeTitle.bold())
+                .pretendard(size: .xxl,
+                            weight: .semibold)
             Text("영어 알파벳(a-Z), 숫자(0...9), 특수문자(?=.*[!@#$%^&*()_+=-]) 각각 한 글자 이상 포함, 총 6글자 이상 입력해주세요.")
                 .foregroundStyle(Color.gray)
         }

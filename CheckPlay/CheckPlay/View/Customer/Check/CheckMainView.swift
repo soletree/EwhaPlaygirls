@@ -7,7 +7,6 @@
 
 import SwiftUI
 import MapKit
-//import SwiftNFC
 import AlertToast
 
 struct CheckMainView: View {
@@ -18,9 +17,7 @@ struct CheckMainView: View {
     @EnvironmentObject var attendanceStore: AttendanceStore
     
     @State var region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 37, longitude: 128), latitudinalMeters: 500, longitudinalMeters: 500)
-//    @State var isActiveNFCSheet: Bool = false
     @ObservedObject var nfcReader = NFCReader()
-//    @ObservedObject var nfcWriter = NFCWriter()
     
     @State var isPresentedNFCAlert: Bool = false
     @State var isProcessingWithNFC: Bool = false
@@ -41,23 +38,22 @@ struct CheckMainView: View {
         VStack(alignment: .leading) {
             // 현재 날짜
             Text("\(Date().toStringUntilDay())")
-                .font(.system(size: 25,
-                              weight: .semibold))
-                .padding(10)
+                .pretendard(size: .xl,
+                            weight: .semibold)
             
             if scheduleStore.scheduleOfToday != nil {
                 Group {
                     Text("\(scheduleOfToday!.date.toStringOnlyHourAndMinute())")
-                        .font(.title3.bold())
+                        .pretendard(size: .s,
+                                    weight: .semibold)
                     Text("\(scheduleOfToday!.address) \(scheduleOfToday!.detailedAddress)")
-                        .font(.body)
-                } // - VStack 
-                .padding(.horizontal, 10)
-                
-                    
+                        .pretendard(size: .s,
+                                    weight: .semibold)
+                } // - VStack
             } else {
                 Text("오늘은 일정이 없습니다.")
-                    .padding(10)
+                    .pretendard(size: .s,
+                                weight: .regular)
             }
                 
             
@@ -71,7 +67,7 @@ struct CheckMainView: View {
                 .padding(10)
             
             
-//            // nfc 버튼
+            // nfc 버튼
                 .toolbar {
                     ToolbarItem {
                         Button(action: {
@@ -83,18 +79,46 @@ struct CheckMainView: View {
                         }
                     }
                 }
-//               
         } // - VStack
+        .padding(.horizontal, 20)
         .disabled(isProcessingWithNFC)
         .toast(isPresenting: $isPresentedNFCAlert) {
             alertOfNFC
         }
-        .onChange(of: nfcReader.msg) { msg in
+        .onChange(of: nfcReader.msg) { message in
+            processAttendanceWithNFC(message)
+        } // - onChange
+
+    }
+    
+    //MARK: - isValid
+    /// 출석체크가 가능한 상태인지 확인하는 메서드입니다.
+    /// - return: success 시 (출석상태, 지각한 시간), failure 시 error를 반환합니다.
+    private func isValid() -> Result<(AttendanceStatus, Int), AttendanceError>{
+        // nfc로 출석체크 하는 경우, 위치 체크를 하지 않습니다.
+        guard let scheduleOfToday else { return .failure(.noSchedule) }
+        // 오늘 일정이 있는 날인지 확인합니다.
+        guard let attendanceOfToday = attendanceStore.attendanceOfToday
+        else { return .failure(.noSchedule) }
+        
+        // 이미 출석체크가 되었으면 출석체크 과정을 수행하지 않습니다.
+        if attendanceOfToday.attendanceStatus != .absent {
+            return .failure(.complete)
+        }
+        
+        // 시간 체크
+        guard let timeComparedResult = Date().compareToSpecificDate(compared: scheduleOfToday.date) else { return .failure(.time) }
+        
+        return .success(timeComparedResult)
+    }
+    
+    //MARK: - processAttendanceWithNFC
+    private func processAttendanceWithNFC(_ message: String) {
             // 적절하지 않은 nfc가 태그 됐을 때 아무 동작도 실행하지 않습니다.
             isProcessingWithNFC = true
-            guard msg == "\(Bundle.main.object(forInfoDictionaryKey: "VALID_NFC_TAG") ?? "")" else {
+            guard message == "\(Bundle.main.object(forInfoDictionaryKey: "VALID_NFC_TAG") ?? "")" else {
                 // nfc msg를 초기화하기 위한 조건문입니다.
-                if msg == "" {
+                if message == "" {
                     isProcessingWithNFC = false
                     return
                 }
@@ -111,7 +135,6 @@ struct CheckMainView: View {
                 
                 alertOfNFC.title = "오늘은 일정이 없습니다."
                 isPresentedNFCAlert = true
-//                dismiss()
                 isProcessingWithNFC = false
                 nfcReader.msg = ""
                 return
@@ -153,28 +176,12 @@ struct CheckMainView: View {
             nfcReader.msg = ""
             isPresentedNFCAlert = true
             isProcessingWithNFC = false
-        } // - onChange
-
-    }
-    
-    /// 출석체크가 가능한 상태인지 확인하는 메서드입니다.
-    /// - return: success 시 (출석상태, 지각한 시간), failure 시 error를 반환합니다.
-    private func isValid() -> Result<(AttendanceStatus, Int), AttendanceError>{
-        // nfc로 출석체크 하는 경우, 위치 체크를 하지 않습니다.
-        guard let scheduleOfToday else { return .failure(.noSchedule) }
-        // 오늘 일정이 있는 날인지 확인합니다.
-        guard let attendanceOfToday = attendanceStore.attendanceOfToday
-        else { return .failure(.noSchedule) }
-        
-        // 이미 출석체크가 되었으면 출석체크 과정을 수행하지 않습니다.
-        if attendanceOfToday.attendanceStatus != .absent {
-            return .failure(.complete)
-        }
-        
-        // 시간 체크
-        guard let timeComparedResult = Date().compareToSpecificDate(compared: scheduleOfToday.date) else { return .failure(.time) }
-        
-        return .success(timeComparedResult)
     }
 }
 
+#Preview {
+    CheckMainView()
+        .environmentObject(UserStore())
+        .environmentObject(ScheduleStore())
+        .environmentObject(AttendanceStore())
+}
