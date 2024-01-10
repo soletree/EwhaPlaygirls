@@ -28,11 +28,6 @@ struct AttendanceMainView: View {
             Spacer()
             
             
-//            // 광고 부분입니다. 
-//            GoogleAdView()
-//                .frame(width: UIScreen.main.bounds.width,
-//                       height: GADPortraitAnchoredAdaptiveBannerAdSizeWithWidth(UIScreen.main.bounds.width).size.height)
-            
                 .navigationTitle("출석현황")
                 .navigationBarTitleDisplayMode(.large)
         } // - VStack

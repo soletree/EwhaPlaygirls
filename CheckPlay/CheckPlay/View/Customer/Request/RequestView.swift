@@ -7,7 +7,6 @@
 import UIKit
 import SwiftUI
 import AlertToast
-import GoogleMobileAds
 
 // FIXME: 웹 뷰를 통한 카페글로 이동
 struct RequestView: View {
@@ -40,9 +39,6 @@ struct RequestView: View {
             
             
             Spacer()
-//            GoogleAdView()
-//                .frame(width: UIScreen.main.bounds.width,
-//                       height: GADPortraitAnchoredAdaptiveBannerAdSizeWithWidth(UIScreen.main.bounds.width).size.height)
             
             .navigationTitle("공결 신청")
             .navigationBarTitleDisplayMode(.large)
