@@ -15,15 +15,15 @@ struct EmptyAttendanceView: View {
                 .frame(width: UIScreen.screenHeight * 0.2,
                        height: UIScreen.screenWidth * 0.3)
                 .padding(10)
-                .foregroundColor(.customLightGray)
+                .foregroundStyle(Color.gray200)
             
             Text("출석 현황이")
                 .font(.system(size: 25, weight: .semibold))
-                .foregroundColor(.customLightGray)
+                .foregroundStyle(Color.gray200)
             
             Text("아직 없습니다!")
                 .font(.system(size: 25, weight: .semibold))
-                .foregroundColor(.customLightGray)
+                .foregroundStyle(Color.gray200)
 
         }
     }

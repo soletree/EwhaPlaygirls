@@ -15,15 +15,15 @@ struct EmptyRequestView: View {
                 .frame(width: UIScreen.screenHeight * 0.2,
                        height: UIScreen.screenWidth * 0.3)
                 .padding(10)
-                .foregroundColor(.customLightGray)
+                .foregroundStyle(Color.gray200)
             
             Text("공결 신청할 수 있는")
                 .font(.system(size: 25, weight: .semibold))
-                .foregroundColor(.customLightGray)
+                .foregroundStyle(Color.gray200)
             
             Text("일정이 없습니다!")
                 .font(.system(size: 25, weight: .semibold))
-                .foregroundColor(.customLightGray)
+                .foregroundStyle(Color.gray200)
 
         }
     }
