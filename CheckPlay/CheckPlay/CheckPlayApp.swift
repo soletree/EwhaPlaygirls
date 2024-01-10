@@ -19,8 +19,6 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         
         return true
     }
-    
-   
 }
 
 @main
@@ -35,7 +33,7 @@ struct CheckPlayApp: App {
         WindowGroup {
             
             LoginRouteView()
-                    .accentColor(.customGreen)
+                    .accentColor(.brandColor)
                     .environmentObject(userStore)
                     .environmentObject(scheduleStore)
                     .environmentObject(attendanceStore)
@@ -43,13 +41,6 @@ struct CheckPlayApp: App {
                     
             
         }
-    }
-    
-    init() {
-        GADMobileAds.sharedInstance().start(completionHandler: nil)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-              ATTrackingManager.requestTrackingAuthorization(completionHandler: { _ in })
-            }
     }
 }
 
