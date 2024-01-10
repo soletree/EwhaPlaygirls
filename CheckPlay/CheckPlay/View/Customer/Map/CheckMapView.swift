@@ -52,47 +52,47 @@ struct CheckMapView: View {
         VStack {
             NaverMapView(circleCenter: circleCenter, circleRadius: circleRadius)
             
-            CustomButton(style: .check) {
-                switch isVaildCheck() {
-                case .success(let result):
-                    Task {
-                        guard let attendanceOfToday = attendanceStore.attendanceOfToday
-                        else { return }
-                        
-                        // remote 변경 사항
-                        guard await attendanceStore.updateAttendance(attendanceID: attendanceOfToday.id, attendanceStatus: result.0, lateTime: result.1)
-                        else { return }
-                        
-                        
-                        // local 변경 사항
-                        attendanceStore.attendanceOfToday?.attendanceStatus = result.0
-                        attendanceStore.attendanceOfToday?.lateTime = result.1
-                        
-                        // alert 처리
-                        attendanceAlert.type = .complete(.green)
-                        attendanceAlert.title = "출석체크가 완료되었습니다."
-                        isPresentedAttendanceAlert = true
-                    }
-                case .failure(let error):
-                    // error typing
-                    switch error {
-                    case .location:
-                        attendanceAlert.title = "지정된 위치가 아닙니다.\n \(locationManager.location?.distance(to: circleCenter) ?? 0)m 이동해주세요!"
-                    case .time:
-                        attendanceAlert.title = "출석체크 시간이 아닙니다!"
-                    case .complete:
-                        attendanceAlert.title = "이미 출석체크가 완료되었습니다!"
-                    case .unknown:
-                        attendanceAlert.title = "알 수 없는 오류입니다! 개발자에게 문의하세요."
-                    case .noSchedule:
-                        attendanceAlert.title = "오늘은 일정이 없습니다!"
-                    }
-                    
-                    attendanceAlert.type = .regular
-                    isPresentedAttendanceAlert = true
-                }
-            }.customButton
-                .padding(.vertical, 20)
+//            CustomButton(style: .check) {
+//                switch isVaildCheck() {
+//                case .success(let result):
+//                    Task {
+//                        guard let attendanceOfToday = attendanceStore.attendanceOfToday
+//                        else { return }
+//                        
+//                        // remote 변경 사항
+//                        guard await attendanceStore.updateAttendance(attendanceID: attendanceOfToday.id, attendanceStatus: result.0, lateTime: result.1)
+//                        else { return }
+//                        
+//                        
+//                        // local 변경 사항
+//                        attendanceStore.attendanceOfToday?.attendanceStatus = result.0
+//                        attendanceStore.attendanceOfToday?.lateTime = result.1
+//                        
+//                        // alert 처리
+//                        attendanceAlert.type = .complete(.green)
+//                        attendanceAlert.title = "출석체크가 완료되었습니다."
+//                        isPresentedAttendanceAlert = true
+//                    }
+//                case .failure(let error):
+//                    // error typing
+//                    switch error {
+//                    case .location:
+//                        attendanceAlert.title = "지정된 위치가 아닙니다.\n \(locationManager.location?.distance(to: circleCenter) ?? 0)m 이동해주세요!"
+//                    case .time:
+//                        attendanceAlert.title = "출석체크 시간이 아닙니다!"
+//                    case .complete:
+//                        attendanceAlert.title = "이미 출석체크가 완료되었습니다!"
+//                    case .unknown:
+//                        attendanceAlert.title = "알 수 없는 오류입니다! 개발자에게 문의하세요."
+//                    case .noSchedule:
+//                        attendanceAlert.title = "오늘은 일정이 없습니다!"
+//                    }
+//                    
+//                    attendanceAlert.type = .regular
+//                    isPresentedAttendanceAlert = true
+//                }
+//            }.customButton
+//                .padding(.vertical, 20)
         }
     } // - checkMapView
     
@@ -165,8 +165,8 @@ struct NaverMapView: UIViewRepresentable {
         circle.center = NMGLatLng(lat: circleCenter.latitude, lng: circleCenter.longitude)
         // 미터 단위로 원이 그려집니다.
         circle.radius = circleRadius
-        circle.outlineColor = UIColor(Color.customCircleOutlineRed)
-        circle.fillColor = UIColor(Color.customCircleFillRed)
+        circle.outlineColor = UIColor(Color.mapCircleOutlineRed)
+        circle.fillColor = UIColor(Color.mapCircleFilledRed)
         circle.mapView = view.mapView
         
         return view

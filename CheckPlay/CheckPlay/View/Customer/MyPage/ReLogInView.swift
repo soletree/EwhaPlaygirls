@@ -17,23 +17,23 @@ struct ReLogInView: View {
     
     var body: some View {
         VStack {
-            CustomTextField(style: .secure, title: "비밀번호를 입력하세요", text: $password).customTextField
-                .padding(.bottom, 10)
+//             (style: .secure, title: "비밀번호를 입력하세요", text: $password). 
+//                .padding(.bottom, 10)
             
-            CustomButton(style: .plain) {
-                Task {
-                    // 사용자를 재인증합니다.
-                    let result = await userStore.relogInAndReauthentication(password: password)
-                    // 재인증에 실패(로그인에 실패)
-                    if !result { return }
-                    
-                    isReauthenticatedUser = true
-                    
-                }
-                // navigate update-password-View
-            }.customButton
-                .navigationTitle("비밀번호 확인")
-                .navigationBarTitleDisplayMode(.large)
+//            CustomButton(style: .plain) {
+//                Task {
+//                    // 사용자를 재인증합니다.
+//                    let result = await userStore.relogInAndReauthentication(password: password)
+//                    // 재인증에 실패(로그인에 실패)
+//                    if !result { return }
+//                    
+//                    isReauthenticatedUser = true
+//                    
+//                }
+//                // navigate update-password-View
+//            }.customButton
+//                .navigationTitle("비밀번호 확인")
+//                .navigationBarTitleDisplayMode(.large)
         } // - VStack
     }
 } // - ReLogInView

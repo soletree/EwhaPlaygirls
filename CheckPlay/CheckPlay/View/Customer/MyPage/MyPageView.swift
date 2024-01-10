@@ -44,11 +44,13 @@ struct MyPageView: View {
             
             VStack(alignment: .leading) {
                 Text("\(name)님")
-                    .foregroundColor(.customGreen)
-                    .font(.largeTitle.bold()) +
+                    .foregroundStyle(Color.brandColor)
+                    .font(.largeTitle.bold())
+                
                 Text(" (\(studentCode))")
-                    .foregroundColor(.customLightGray)
+                    .foregroundStyle(Color.gray200)
                     .font(.title.bold())
+                
                 Text("환영합니다!")
                     .font(.largeTitle.bold())
                     .padding(.bottom, 15)
@@ -57,13 +59,12 @@ struct MyPageView: View {
                 sectionOfEditProfile
                 sectionOfContact
                 sectionOfLogOut
-                sectionOfMasterMode
                 
                 // 버전 정보입니다.
                 Divider()
                 Text("버전 정보 v\(versionInformation)")
                     .font(.caption)
-                    .foregroundColor(.customLightGray)
+                    .foregroundStyle(Color.gray200)
                 
                 
             } // - VStack
@@ -72,8 +73,8 @@ struct MyPageView: View {
             Spacer()
             
             // 광고 섹션입니다.
-            GoogleAdView()
-                .frame(width: UIScreen.screenWidth, height: GADPortraitAnchoredAdaptiveBannerAdSizeWithWidth(UIScreen.screenWidth).size.height)
+//            GoogleAdView()
+//                .frame(width: UIScreen.screenWidth, height: GADPortraitAnchoredAdaptiveBannerAdSizeWithWidth(UIScreen.screenWidth).size.height)
                 
            
         } // - VStack
@@ -137,7 +138,7 @@ struct MyPageView: View {
         VStack(alignment: .leading) {
             NavigationLink(destination: EditProfileRouteView().environmentObject(userStore)) {
                 Text("회원정보 수정")
-                    .foregroundColor(.black)
+                    .foregroundStyle(Color.black)
             }
         } // - VStack
     } // - sectionOfEditProfile
@@ -154,7 +155,7 @@ struct MyPageView: View {
                 }
             }) {
                 Text("문의하기")
-                    .foregroundColor(.black)
+                    .foregroundStyle(Color.black)
             }
         } // - VStack
     } // - sectionOfContact
@@ -167,20 +168,9 @@ struct MyPageView: View {
                 isPresentedConfirmLogOutAlert = true
             }) {
                 Text("로그아웃하기")
-                    .foregroundColor(.black)
+                    .foregroundStyle(Color.black)
             }
         } // - VStack
     } // - sectionOfLogOut
-    
-    private var sectionOfMasterMode: some View {
-        VStack(alignment: .leading) {
-            Divider()
-            NavigationLink(destination: SingUpWithMaster()) {
-                Text("관리자 모드로 전환하기")
-                    .foregroundColor(.black)
-            }
-        }
-    }
-    
 }
 

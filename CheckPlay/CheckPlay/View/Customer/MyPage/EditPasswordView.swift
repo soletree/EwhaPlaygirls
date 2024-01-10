@@ -18,22 +18,22 @@ struct EditPasswordView: View {
     var body: some View {
         VStack {
             
-            CustomTextField(style: .secure, title: "비밀번호를 입력하세요", text: $password).customTextField
-            CustomTextField(style: .secure, title: "한 번 더 입력하세요.", text: $confirmPassword).customTextField
+//             (style: .secure, title: "비밀번호를 입력하세요", text: $password). 
+//             (style: .secure, title: "한 번 더 입력하세요.", text: $confirmPassword). 
             
-            CustomButton(style: .plain) {
-                if password != confirmPassword {
-                    return
-                }
-                // update password
-                Task {
-                    let result = await userStore.updatePassword(updatedPassword: password)
-                    
-                    if result { dismiss() }
-                }
-            }.customButton
-                .navigationTitle("비밀번호 변경")
-                .navigationBarTitleDisplayMode(.large)
+//            CustomButton(style: .plain) {
+//                if password != confirmPassword {
+//                    return
+//                }
+//                // update password
+//                Task {
+//                    let result = await userStore.updatePassword(updatedPassword: password)
+//                    
+//                    if result { dismiss() }
+//                }
+//            }.customButton
+//                .navigationTitle("비밀번호 변경")
+//                .navigationBarTitleDisplayMode(.large)
         } // - VStack
     }
 }

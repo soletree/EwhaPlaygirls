@@ -14,24 +14,13 @@ struct LoginRouteView: View {
     @EnvironmentObject var scheduleStore: ScheduleStore
     @EnvironmentObject var attendanceStore: AttendanceStore
     
-    @StateObject var memberStore: MemberMasterStore = .init()
-    @StateObject var scheduleMasterStore: ScheduleMasterStore = .init()
-    @StateObject var attendanceMasterStore: AttendanceMasterStore = .init()
-    
     // 런치스크린을 실행할지 판단하는 변수입니다.
     @State var isPresentedLaunchScreen: Bool = true
     var body: some View {
         NavigationView {
             if isPresentedLaunchScreen {
-                LauchScreenView()
-            } else if userStore.isPresentedAdmin {
-                MasterMainView()
-                    .accentColor(.customGreen)
-                    .environmentObject(memberStore)
-                    .environmentObject(scheduleMasterStore)
-                    .environmentObject(attendanceMasterStore)
-            }
-            else if userStore.isLogin {
+                LaunchScreenView()
+            } else if userStore.isLogin {
                 ContentView()
             } else {
                 LoginView()
@@ -39,12 +28,6 @@ struct LoginRouteView: View {
             
         } // - NavigationView
         .task {
-            // admin 로직
-            if userStore.isPresentedAdmin {
-                await memberStore.fetchMembers()
-                await scheduleMasterStore.fetchSchedules()
-                return
-            }
             // 이미 로그인한 상태면
             guard let currentUser = Auth.auth().currentUser
             else {

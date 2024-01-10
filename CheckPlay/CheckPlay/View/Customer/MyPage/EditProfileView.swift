@@ -23,7 +23,7 @@ struct EditProfileView: View {
                 .navigationTitle("회원정보 변경")
                 .navigationBarTitleDisplayMode(.large)
         }
-        .foregroundColor(.black)
+        .foregroundStyle(Color.black)
         .padding(10)
         .alert("정말로 탈퇴하시겠어요?\n 탈퇴 즉시 모든 정보가 삭제됩니다.", isPresented: $isAlertUnregistreUser) {
             Button(role: .cancel, action: {}) {
