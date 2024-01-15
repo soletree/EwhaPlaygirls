@@ -5,7 +5,7 @@
 //  Created by sole on 2023/03/06.
 //
 
-import Foundation
+import SwiftUI
 
 enum AttendanceStatus: String {
     case attendance = "출석" // 출석
@@ -15,6 +15,25 @@ enum AttendanceStatus: String {
     case cancledByWeather = "우천 취소" // 우천 취소
     case cancledByCoach = "감독 취소" // 감독 취소
     case rest = "휴동" // 휴동
+    
+    func toColor() -> Color {
+        switch self {
+        case .attendance:
+            return Color.pointColor
+        case .late:
+            return Color.pointColor
+        case .absent:
+            return Color.pointColor
+        case .officialAbsent:
+            return Color.pointColor
+        case .cancledByWeather:
+            return Color.pointColor
+        case .cancledByCoach:
+            return Color.pointColor
+        case .rest:
+            return Color.pointColor
+        }
+    }
 }
 
 
