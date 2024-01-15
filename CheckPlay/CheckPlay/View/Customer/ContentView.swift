@@ -12,7 +12,7 @@ struct ContentView: View {
         TabView {
             
             // 출석체크 탭
-            NavigationView {
+            NavigationStack {
                 CheckMainView()
             }
             .tabItem {
@@ -22,8 +22,8 @@ struct ContentView: View {
             
             
             // 출석현황 탭
-            NavigationView {
-                AttendanceMainView()
+            NavigationStack {
+                CalendarView()
             }
             .tabItem {
                 Image(systemName: "list.clipboard")
@@ -31,7 +31,7 @@ struct ContentView: View {
             }
             
             // 공결신청 탭
-            NavigationView {
+            NavigationStack {
                 RequestView()
             }
             .tabItem {
@@ -40,7 +40,7 @@ struct ContentView: View {
             }
             
             // 마이페이지 탭
-            NavigationView {
+            NavigationStack {
                 MyPageView()
             }
             .tabItem {
