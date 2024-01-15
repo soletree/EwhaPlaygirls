@@ -8,6 +8,13 @@
 import Foundation
 
 extension Date {
+    var dateToString: String {
+        let dateFormatter: DateFormatter = .init()
+        dateFormatter.locale = Locale(identifier: "ko-KR")
+        dateFormatter.dateFormat = "YYYY년 MM월 dd일 E요일"
+        return dateFormatter.string(from: self)
+    } 
+    
     func toString() -> String {
         let dateFormatter: DateFormatter = .init()
         dateFormatter.dateFormat = "yyyy년 MM월 dd일 HH시 mm분"
