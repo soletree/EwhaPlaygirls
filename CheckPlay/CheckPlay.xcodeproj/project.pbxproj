@@ -35,7 +35,6 @@
 		FD35AD402A9BB8B70016ED9A /* EmptyAttendanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD35AD3F2A9BB8B70016ED9A /* EmptyAttendanceView.swift */; };
 		FD6B398C2A9D0F87005671EF /* Period.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD6B398B2A9D0F87005671EF /* Period.swift */; };
 		FD6BBEF129E553C70019FCCE /* loading-airplane-green.json in Resources */ = {isa = PBXBuildFile; fileRef = FD6BBEF029E553C70019FCCE /* loading-airplane-green.json */; };
-		FD6BBEF329E55BD70019FCCE /* AttendanceStatusComponentSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD6BBEF229E55BD70019FCCE /* AttendanceStatusComponentSetting.swift */; };
 		FD6BF49C2B4EBD69006D5C96 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FD6BF49B2B4EBD69006D5C96 /* GoogleService-Info.plist */; };
 		FD7E855C2A9BCA6B0008D993 /* Member.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7E855B2A9BCA6B0008D993 /* Member.swift */; };
 		FD7E855F2A9BCB990008D993 /* MemberConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7E855E2A9BCB990008D993 /* MemberConstant.swift */; };
@@ -45,6 +44,9 @@
 		FD7F4C0B2B55ADC60069B336 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7F4C0A2B55ADC60069B336 /* CalendarView.swift */; };
 		FD7F4C0D2B55ADE30069B336 /* DateComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7F4C0C2B55ADE30069B336 /* DateComponent.swift */; };
 		FD7F4C0F2B55AE0A0069B336 /* CalendarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7F4C0E2B55AE0A0069B336 /* CalendarViewModel.swift */; };
+		FDA161172B55BC9000F3A7B4 /* AlertViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDA161162B55BC9000F3A7B4 /* AlertViewModel.swift */; };
+		FDA161192B56CB1B00F3A7B4 /* SignUpInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDA161182B56CB1B00F3A7B4 /* SignUpInfo.swift */; };
+		FDA1611B2B56D08000F3A7B4 /* CLLocation+.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDA1611A2B56D08000F3A7B4 /* CLLocation+.swift */; };
 		FDA77D6D29E099F5006B083B /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = FDA77D6C29E099F5006B083B /* GoogleMobileAds */; };
 		FDC5B3452A01044F005B735E /* CusomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC5B3442A01044F005B735E /* CusomSheet.swift */; };
 		FDCA1E7C29ACFBC40038725D /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = FDCA1E7B29ACFBC40038725D /* FirebaseAnalytics */; };
@@ -147,7 +149,6 @@
 		FD3DEB242B4EC0AD0003F88C /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FD6B398B2A9D0F87005671EF /* Period.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Period.swift; sourceTree = "<group>"; };
 		FD6BBEF029E553C70019FCCE /* loading-airplane-green.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "loading-airplane-green.json"; sourceTree = "<group>"; };
-		FD6BBEF229E55BD70019FCCE /* AttendanceStatusComponentSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceStatusComponentSetting.swift; sourceTree = "<group>"; };
 		FD6BF49B2B4EBD69006D5C96 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		FD7E855B2A9BCA6B0008D993 /* Member.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Member.swift; sourceTree = "<group>"; };
 		FD7E855E2A9BCB990008D993 /* MemberConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberConstant.swift; sourceTree = "<group>"; };
@@ -155,6 +156,9 @@
 		FD7F4C0A2B55ADC60069B336 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		FD7F4C0C2B55ADE30069B336 /* DateComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateComponent.swift; sourceTree = "<group>"; };
 		FD7F4C0E2B55AE0A0069B336 /* CalendarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewModel.swift; sourceTree = "<group>"; };
+		FDA161162B55BC9000F3A7B4 /* AlertViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertViewModel.swift; sourceTree = "<group>"; };
+		FDA161182B56CB1B00F3A7B4 /* SignUpInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpInfo.swift; sourceTree = "<group>"; };
+		FDA1611A2B56D08000F3A7B4 /* CLLocation+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CLLocation+.swift"; sourceTree = "<group>"; };
 		FDC5B3442A01044F005B735E /* CusomSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CusomSheet.swift; sourceTree = "<group>"; };
 		FDCA1E9129ACFC6D0038725D /* UserStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStore.swift; sourceTree = "<group>"; };
 		FDCA1E9729AD0A4C0038725D /* UIScreen+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScreen+.swift"; sourceTree = "<group>"; };
@@ -266,7 +270,6 @@
 			children = (
 				FDF11A3E2B4DCDF600F549BD /* Font */,
 				FD19B47129A383EC00974DC1 /* Color+.swift */,
-				FD6BBEF229E55BD70019FCCE /* AttendanceStatusComponentSetting.swift */,
 				FDC5B3442A01044F005B735E /* CusomSheet.swift */,
 			);
 			path = UI;
@@ -365,6 +368,7 @@
 			children = (
 				FDCA1E9729AD0A4C0038725D /* UIScreen+.swift */,
 				FD2EDB2629B7250B00C1F096 /* Date+.swift */,
+				FDA1611A2B56D08000F3A7B4 /* CLLocation+.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -494,6 +498,7 @@
 				FDCA1E9129ACFC6D0038725D /* UserStore.swift */,
 				FD6B398D2A9D12BB005671EF /* Customer */,
 				FD7F4C0E2B55AE0A0069B336 /* CalendarViewModel.swift */,
+				FDA161162B55BC9000F3A7B4 /* AlertViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -508,6 +513,7 @@
 				FD2EDB1629B6090A00C1F096 /* Attendance.swift */,
 				FD2EDB2229B617B500C1F096 /* Schedule.swift */,
 				FD2EDB2A29B7A6AD00C1F096 /* Request.swift */,
+				FDA161182B56CB1B00F3A7B4 /* SignUpInfo.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -696,6 +702,7 @@
 			files = (
 				FDD5095E29C9A5EE008E2DC0 /* SignUpRouteView.swift in Sources */,
 				FDD5095A29C97223008E2DC0 /* TypeStudentCodeAndNameView.swift in Sources */,
+				FDA161192B56CB1B00F3A7B4 /* SignUpInfo.swift in Sources */,
 				FD34789129C437F700CB75A0 /* EditProfileView.swift in Sources */,
 				FDF455BD29A2A196005DEFB7 /* EPButton.swift in Sources */,
 				FDD5095529C4E375008E2DC0 /* NFCSheetView.swift in Sources */,
@@ -732,17 +739,18 @@
 				FD2EDB2D29B7A6DB00C1F096 /* RequestConstant.swift in Sources */,
 				FDCA1E9D29AD15920038725D /* UserConstant.swift in Sources */,
 				FDF4558B29A29AAA005DEFB7 /* CheckPlayApp.swift in Sources */,
-				FD6BBEF329E55BD70019FCCE /* AttendanceStatusComponentSetting.swift in Sources */,
 				FD2EDB1929B609EB00C1F096 /* AttendanceConstant.swift in Sources */,
 				FD34789529C4393200CB75A0 /* ReLogInView.swift in Sources */,
 				FDCA1E9A29AD0D9F0038725D /* User.swift in Sources */,
 				FD2EDB2529B6FCD800C1F096 /* RequestView.swift in Sources */,
+				FDA161172B55BC9000F3A7B4 /* AlertViewModel.swift in Sources */,
 				FD2EDB2129B6178A00C1F096 /* ScheduleConstant.swift in Sources */,
 				FD6B398C2A9D0F87005671EF /* Period.swift in Sources */,
 				FD7F4C0B2B55ADC60069B336 /* CalendarView.swift in Sources */,
 				FDCA1E9229ACFC6D0038725D /* UserStore.swift in Sources */,
 				FD2EDB2B29B7A6AD00C1F096 /* Request.swift in Sources */,
 				FD19B46F29A383B800974DC1 /* EPTextField.swift in Sources */,
+				FDA1611B2B56D08000F3A7B4 /* CLLocation+.swift in Sources */,
 				FD19B47529A3853100974DC1 /* CheckMapView.swift in Sources */,
 				FD7E855C2A9BCA6B0008D993 /* Member.swift in Sources */,
 			);
