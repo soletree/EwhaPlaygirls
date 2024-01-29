@@ -13,7 +13,8 @@ struct SignUpRouteView: View {
     
     var body: some View {
         if !isMember {
-            TypeStudentCodeAndNameView(isMember: $isMember, signUpInfo: $signUpInfo)
+            TypeStudentCodeAndNameView(isMember: $isMember,
+                                       signUpInfo: $signUpInfo)
         } else {
             TypeEmailAndPasswordView(signUpInfo: $signUpInfo)
         }
@@ -25,15 +26,10 @@ struct TypeEmailAndPasswordView: View {
     @State var isTypedEmail: Bool = false
     var body: some View {
         if !isTypedEmail {
-            TypeEmailView(isTypedEmail: $isTypedEmail, signUpInfo: $signUpInfo)
+            TypeEmailView(isTypedEmail: $isTypedEmail,
+                          signUpInfo: $signUpInfo)
         } else {
             TypePasswordView(signUpInfo: $signUpInfo)
         }
     }
-}
-
-struct SignUpInfo {
-    var name: String = ""
-    var studentCode: String = ""
-    var email: String = ""
 }
