@@ -64,7 +64,6 @@ struct CheckMainView: View {
                         ProgressView()
                     }
                 }
-                .padding(10)
             
             
             // nfc 버튼
@@ -80,7 +79,6 @@ struct CheckMainView: View {
                     }
                 }
         } // - VStack
-        .padding(.horizontal, 20)
         .disabled(isProcessingWithNFC)
         .toast(isPresenting: $isPresentedNFCAlert) {
             alertOfNFC
