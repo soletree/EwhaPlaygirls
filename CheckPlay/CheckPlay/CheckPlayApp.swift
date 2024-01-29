@@ -79,7 +79,7 @@ struct CheckPlayApp: App {
     @StateObject var userStore: UserStore = .init()
     @StateObject var scheduleStore: ScheduleStore = .init()
     @StateObject var attendanceStore: AttendanceStore = .init()
-    @StateObject var requestStore: RequestStore = .init()
+    
     var body: some Scene {
         WindowGroup {
             LoginRouteView()
@@ -87,7 +87,6 @@ struct CheckPlayApp: App {
                     .environmentObject(userStore)
                     .environmentObject(scheduleStore)
                     .environmentObject(attendanceStore)
-                    .environmentObject(requestStore)
         }
     }
 }
