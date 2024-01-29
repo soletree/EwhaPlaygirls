@@ -20,24 +20,25 @@ struct TypeStudentCodeAndNameView: View {
     @State var isPresentedTypeStudentCodeAndNameViewAlert: Bool = false
     var body: some View {
         VStack(alignment: .leading) {
+            Spacer()
+            
             Text("학생 정보 입력")
                 .pretendard(size: .xxl,
                             weight: .bold)
             Text("학번 7자리(ex. 1234567)\n이름(ex. 김이화)을 입력해주세요.")
                 .pretendard(size: .xs,
                             weight: .medium)
-                .foregroundStyle(Color.gray200)
+                .foregroundStyle(Color.gray300)
             
 
-            VStack(alignment: .center) {
+            VStack {
                 EPTextField(style: .studentCode,
                             title: "학번을 입력하세요",
                             text: $userStudentCode)
                 EPTextField(style: .plain,
                             title: "이름을 입력하세요",
                             text: $userName)
-                
-                Spacer()
+                .padding(.bottom, 10)
                 
                 EPButton {
                     checkValidMember()
@@ -46,6 +47,8 @@ struct TypeStudentCodeAndNameView: View {
                         .frame(maxWidth: .infinity)
                 }
             }
+            
+            Spacer()
         } // - VStack
         .padding(.horizontal, 20)
         .toast(isPresenting: $isPresentedTypeStudentCodeAndNameViewAlert) {
@@ -68,3 +71,8 @@ struct TypeStudentCodeAndNameView: View {
 }
 
 
+#Preview {
+    TypeStudentCodeAndNameView(isMember: .constant(false),
+                               signUpInfo: .constant(.init()))
+        .environmentObject(UserStore())
+}
