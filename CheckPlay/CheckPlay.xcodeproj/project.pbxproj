@@ -31,7 +31,6 @@
 		FD34789329C4390600CB75A0 /* EditProfileRouteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD34789229C4390600CB75A0 /* EditProfileRouteView.swift */; };
 		FD34789529C4393200CB75A0 /* ReLogInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD34789429C4393200CB75A0 /* ReLogInView.swift */; };
 		FD34789729C43BFF00CB75A0 /* ContactMailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD34789629C43BFF00CB75A0 /* ContactMailView.swift */; };
-		FD35AD3E2A9BB6550016ED9A /* EmptyRequestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD35AD3D2A9BB6550016ED9A /* EmptyRequestView.swift */; };
 		FD35AD402A9BB8B70016ED9A /* EmptyAttendanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD35AD3F2A9BB8B70016ED9A /* EmptyAttendanceView.swift */; };
 		FD6B398C2A9D0F87005671EF /* Period.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD6B398B2A9D0F87005671EF /* Period.swift */; };
 		FD6BBEF129E553C70019FCCE /* loading-airplane-green.json in Resources */ = {isa = PBXBuildFile; fileRef = FD6BBEF029E553C70019FCCE /* loading-airplane-green.json */; };
@@ -144,7 +143,6 @@
 		FD34789229C4390600CB75A0 /* EditProfileRouteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileRouteView.swift; sourceTree = "<group>"; };
 		FD34789429C4393200CB75A0 /* ReLogInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReLogInView.swift; sourceTree = "<group>"; };
 		FD34789629C43BFF00CB75A0 /* ContactMailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactMailView.swift; sourceTree = "<group>"; };
-		FD35AD3D2A9BB6550016ED9A /* EmptyRequestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyRequestView.swift; sourceTree = "<group>"; };
 		FD35AD3F2A9BB8B70016ED9A /* EmptyAttendanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyAttendanceView.swift; sourceTree = "<group>"; };
 		FD3DEB242B4EC0AD0003F88C /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FD6B398B2A9D0F87005671EF /* Period.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Period.swift; sourceTree = "<group>"; };
@@ -309,7 +307,6 @@
 			isa = PBXGroup;
 			children = (
 				FD2EDB2429B6FCD800C1F096 /* RequestView.swift */,
-				FD35AD3D2A9BB6550016ED9A /* EmptyRequestView.swift */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -718,7 +715,6 @@
 				FD2EDB2729B7250B00C1F096 /* Date+.swift in Sources */,
 				FDF455BA29A29DC5005DEFB7 /* CheckMainView.swift in Sources */,
 				FDD5095C29C97891008E2DC0 /* TypePasswordView.swift in Sources */,
-				FD35AD3E2A9BB6550016ED9A /* EmptyRequestView.swift in Sources */,
 				FDD5096029C9F989008E2DC0 /* LaunchScreenView.swift in Sources */,
 				FDCA97D329A38F8900AE7002 /* LoginView.swift in Sources */,
 				FD2EDB2329B617B500C1F096 /* Schedule.swift in Sources */,
