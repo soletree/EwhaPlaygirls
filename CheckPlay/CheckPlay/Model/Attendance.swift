@@ -54,3 +54,28 @@ struct Attendance {
                                          isPaying: false,
                                          date: Date())
 }
+
+enum AttendanceError: Error {
+    case time
+    case location
+    case complete
+    case unknown
+    case noSchedule
+    
+    func toString() -> String {
+        switch self {
+        case .time:
+            return "출석체크 시간이 아닙니다!"
+        case .location:
+            return "지정된 위치가 아닙니다."
+        case .complete:
+            return "출석체크가 완료되었습니다!"
+        case .unknown:
+            return "알 수 없는 오류입니다! 개발자에게 문의하세요."
+        case .noSchedule:
+            return "오늘은 일정이 없습니다!"
+        @unknown default:
+            return "알 수 없는 오류입니다! 개발자에게 문의하세요."
+        }
+    }
+}
