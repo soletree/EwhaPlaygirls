@@ -34,15 +34,13 @@ struct TypePasswordView: View {
         VStack {
             Spacer()
             headerOfTypePasswordView
-            Spacer()
             
-            
-             EPTextField(style: .secure,
-                         title: "비밀번호를 입력해주세요",
-                         text: $userPassword)
-             EPTextField(style: .secure,
-                         title: "비밀번호를 한 번 더 입력해주세요",
-                         text: $userConfirmPassword)
+            EPTextField(style: .secure,
+                        title: "비밀번호를 입력해주세요",
+                        text: $userPassword)
+            EPTextField(style: .secure,
+                        title: "비밀번호를 한 번 더 입력해주세요",
+                        text: $userConfirmPassword)
             
             
             if userPassword.isEmpty && userConfirmPassword.isEmpty {
@@ -59,13 +57,14 @@ struct TypePasswordView: View {
                     .foregroundStyle(Color.green)
             }
             
-            
-            
             EPButton {
                 // signUp logic
                 isProcessingSignUp = true
                 Task {
-                    let result = await userStore.signUp(email: signUpInfo.email, password: userPassword, name: signUpInfo.name, studentCode: signUpInfo.studentCode)
+                    let result = await userStore.signUp(email: signUpInfo.email,
+                                                        password: userPassword,
+                                                        name: signUpInfo.name,
+                                                        studentCode: signUpInfo.studentCode)
                     
                     if !result {
                         alertOfTypePasswordView = Alert(title: Text("회원가입에 실패했어요. 다시 시도해주세요."))
@@ -73,30 +72,23 @@ struct TypePasswordView: View {
                     else {
                         alertOfTypePasswordView = Alert(title: Text("회원가입이 완료되었습니다!"), dismissButton: .cancel(Text("확인"), action: {dismiss()}))
                     }
-                    
-                    
                     isPresentedTypePasswordAlert = true
                     isProcessingSignUp = false
-//                    // FIXME: toastAlert이 뜨고 난 후에 dismiss 시키기 위해 해둔 처리이긴 한데, 약간 부자연스러운 부분이 있음
-//                    DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
-//                        if result {
-//                            dismiss()
-//                        }
-//                    }
                 }
             } label: {
                 Text("다음으로")
+                    .frame(maxWidth: .infinity)
             }
             .disabled(isProcessingSignUp ||
-                         !isValidPassword || !isEqualPasswordAndConfirmPassword)
+                      !isValidPassword || !isEqualPasswordAndConfirmPassword)
             
             Spacer()
         } // - VStack
         .padding(.horizontal, 20)
         .disabled(isProcessingSignUp)
-//        .toast(isPresenting: $isPresentedTypePasswordAlert) {
-//            alertOfTypePasswordView
-//        }
+        //        .toast(isPresenting: $isPresentedTypePasswordAlert) {
+        //            alertOfTypePasswordView
+        //        }
         .toast(isPresenting: $isProcessingSignUp) {
             AlertToast(displayMode: .alert, type: .loading)
         }
@@ -112,7 +104,7 @@ struct TypePasswordView: View {
             Text("비밀번호 설정")
                 .pretendard(size: .xxl,
                             weight: .semibold)
-            Text("영어 알파벳(a-Z), 숫자(0...9), 특수문자(?=.*[!@#$%^&*()_+=-]) 각각 한 글자 이상 포함, 총 6글자 이상 입력해주세요.")
+            Text("영어 알파벳(a-Z), 숫자(0...9),\n특수문자(?=.*[!@#$%^&*()_+=-])\n각각 한 글자 이상 포함, 총 6글자 이상 입력해주세요.")
                 .foregroundStyle(Color.gray)
         }
         .frame(width: UIScreen.screenWidth)
@@ -120,4 +112,7 @@ struct TypePasswordView: View {
     
 }
 
-
+#Preview {
+    TypePasswordView(signUpInfo: .constant(.init()))
+        .environmentObject(UserStore())
+}
