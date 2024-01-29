@@ -23,7 +23,6 @@
 		FD2EDB2329B617B500C1F096 /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2EDB2229B617B500C1F096 /* Schedule.swift */; };
 		FD2EDB2529B6FCD800C1F096 /* RequestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2EDB2429B6FCD800C1F096 /* RequestView.swift */; };
 		FD2EDB2729B7250B00C1F096 /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2EDB2629B7250B00C1F096 /* Date+.swift */; };
-		FD2EDB2929B7A5DB00C1F096 /* RequestStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2EDB2829B7A5DB00C1F096 /* RequestStore.swift */; };
 		FD2EDB2B29B7A6AD00C1F096 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2EDB2A29B7A6AD00C1F096 /* Request.swift */; };
 		FD2EDB2D29B7A6DB00C1F096 /* RequestConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2EDB2C29B7A6DB00C1F096 /* RequestConstant.swift */; };
 		FD34788F29C30BC600CB75A0 /* EditPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD34788E29C30BC600CB75A0 /* EditPasswordView.swift */; };
@@ -135,7 +134,6 @@
 		FD2EDB2229B617B500C1F096 /* Schedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Schedule.swift; sourceTree = "<group>"; };
 		FD2EDB2429B6FCD800C1F096 /* RequestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestView.swift; sourceTree = "<group>"; };
 		FD2EDB2629B7250B00C1F096 /* Date+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+.swift"; sourceTree = "<group>"; };
-		FD2EDB2829B7A5DB00C1F096 /* RequestStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestStore.swift; sourceTree = "<group>"; };
 		FD2EDB2A29B7A6AD00C1F096 /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 		FD2EDB2C29B7A6DB00C1F096 /* RequestConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestConstant.swift; sourceTree = "<group>"; };
 		FD34788E29C30BC600CB75A0 /* EditPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPasswordView.swift; sourceTree = "<group>"; };
@@ -329,7 +327,6 @@
 		FD6B398D2A9D12BB005671EF /* Customer */ = {
 			isa = PBXGroup;
 			children = (
-				FD2EDB2829B7A5DB00C1F096 /* RequestStore.swift */,
 				FD2EDB1E29B6168900C1F096 /* ScheduleStore.swift */,
 				FD2EDB1129B5CF7A00C1F096 /* AttendanceStore.swift */,
 			);
@@ -731,7 +728,6 @@
 				FD2EDB1D29B615F400C1F096 /* DefaultValue.swift in Sources */,
 				FD34788F29C30BC600CB75A0 /* EditPasswordView.swift in Sources */,
 				FDCA1E9829AD0A4C0038725D /* UIScreen+.swift in Sources */,
-				FD2EDB2929B7A5DB00C1F096 /* RequestStore.swift in Sources */,
 				FD2EDB2D29B7A6DB00C1F096 /* RequestConstant.swift in Sources */,
 				FDCA1E9D29AD15920038725D /* UserConstant.swift in Sources */,
 				FDF4558B29A29AAA005DEFB7 /* CheckPlayApp.swift in Sources */,
