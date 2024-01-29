@@ -10,7 +10,6 @@ import SwiftUI
 struct ContentView: View {
     var body: some View {
         TabView {
-            
             // 출석체크 탭
             NavigationStack {
                 CheckMainView()
@@ -47,9 +46,10 @@ struct ContentView: View {
                 Image(systemName: "person.fill")
                 Text("마이페이지")
             }
-            
         }
-        
-        
     }
+}
+
+#Preview {
+    ContentView()
 }
