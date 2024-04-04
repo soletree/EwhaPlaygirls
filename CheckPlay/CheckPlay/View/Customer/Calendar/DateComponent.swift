@@ -17,7 +17,7 @@ struct DateComponent: View {
         
         return date.isValidDate
     }
-    var attendance: AttendanceStatus?
+    var attendance: Attendance?
     var action: () -> () = {}
     
     var isSelected: Bool {
@@ -29,11 +29,13 @@ struct DateComponent: View {
     var backgrounColor: Color {
         guard isValid
         else { return .clear }
+
         guard let dateComponent
         else { return .clear }
         if isSelected {
             return .gray200
         }
+        
         return .white
     }
     
@@ -46,7 +48,7 @@ struct DateComponent: View {
                     .foregroundStyle(isValid ? .black : .clear)
                 
                 Circle()
-                    .foregroundStyle(isValid && (attendance != nil) ? attendance?.toColor() ?? .clear : .clear)
+                    .foregroundStyle(isValid && (attendance != nil) ? attendance?.attendanceStatus.toColor() ?? .clear : .clear)
                     .frame(width: 10,
                            height: 10)
             }
