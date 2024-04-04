@@ -18,10 +18,6 @@ class AlertViewModel: ObservableObject {
     private var completeTitle: String?
     private var completSubTitle: String?
     
-    func setAlertTitle() {
-        
-    }
-    
     var errorAlert: AlertToast {
         AlertToast(displayMode: .alert,
                    type: .error(.red),
