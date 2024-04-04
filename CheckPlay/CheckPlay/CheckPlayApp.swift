@@ -8,22 +8,21 @@ import SwiftUI
 import FirebaseCore
 import FirebaseFirestore
 import FirebaseAuth
-import NMapsMap
 import AppTrackingTransparency
 import FirebaseMessaging
 
 class AppDelegate: NSObject,
                    UIApplicationDelegate,
                    MessagingDelegate {
-    func application(_ application: UIApplication,
-                     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+    func application(
+        _ application: UIApplication,
+        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil
+    ) -> Bool {
         FirebaseApp.configure()
         
         Messaging.messaging().delegate = self
         // fcmtoken 자동 설정 해제
         Messaging.messaging().isAutoInitEnabled = true
-        
-        NMFAuthManager.shared().clientId = "\(Bundle.main.object(forInfoDictionaryKey: "NAVER_API_CLIENT_ID") ?? "")"
         
         // register divice to APNs
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { didAllow, error in
