@@ -9,28 +9,14 @@ import SwiftUI
 import CoreNFC
 import SwiftNFC
 
-struct NFCSheetView: View {
-    @ObservedObject var nfcReader = NFCReader()
-    @ObservedObject var nfcWriter = NFCWriter()
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-            .onAppear {
-                nfcReader.startAlert = "핸드폰을 NFC 태그에 가까이 해주세요."
-                
-                nfcReader.read()
-                print(nfcReader.raw)
-                print(nfcReader.msg)
-            }
-    }
-        
-}
-
 
 @available(iOS 13.0, *)
-public class NFCReader: NSObject, ObservableObject, NFCNDEFReaderSessionDelegate {
+public class NFCReader: NSObject, ObservableObject,
+                        NFCNDEFReaderSessionDelegate {
     
     public var startAlert = "NFC 태그를 핸드폰 가까이에 두세요."
     public var endAlert = ""
+    
     @Published public var msg = "Scan to read or Edit here to write..."
     public var raw = "Raw Data available after scan."
 
@@ -46,7 +32,8 @@ public class NFCReader: NSObject, ObservableObject, NFCNDEFReaderSessionDelegate
         session?.begin()
     }
     
-    public func readerSession(_ session: NFCNDEFReaderSession, didDetectNDEFs messages: [NFCNDEFMessage]) {
+    public func readerSession(_ session: NFCNDEFReaderSession,
+                              didDetectNDEFs messages: [NFCNDEFMessage]) {
         DispatchQueue.main.async {
             self.msg = messages.map {
                 $0.records.map {
@@ -67,7 +54,8 @@ public class NFCReader: NSObject, ObservableObject, NFCNDEFReaderSessionDelegate
     public func readerSessionDidBecomeActive(_ session: NFCNDEFReaderSession) {
     }
     
-    public func readerSession(_ session: NFCNDEFReaderSession, didInvalidateWithError error: Error) {
+    public func readerSession(_ session: NFCNDEFReaderSession,
+                              didInvalidateWithError error: Error) {
         print("Session did invalidate with error: \(error)")
         self.session = nil
     }
