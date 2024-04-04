@@ -33,7 +33,6 @@ struct LoginView: View {
                         title: "비밀번호를 입력하세요",
                         text: $userPassword)
             
-            
             EPButton {
                 processLogin()
             } label: {
@@ -43,41 +42,51 @@ struct LoginView: View {
             .padding(.top, 20)
             .disabled(isProcessingLogin)
             
-            NavigationLink(destination: SignUpRouteView().environmentObject(userStore)) {
-                HStack {
-                    Text("회원가입")
-                        .pretendard(size: .s,
-                                    weight: .regular)
-                        .foregroundStyle(Color.subColor200)
-                    
-                    Text("|")
-                        .pretendard(size: .s,
-                                    weight: .regular)
-                        .foregroundStyle(Color.subColor200)
+            HStack {
+                NavigationLink(
+                    destination: SignUpRouteView()
+                        .environmentObject(userStore)
+                ) {
+                    HStack {
+                        Text("회원가입")
+                            .pretendard(size: .s,
+                                        weight: .regular)
+                            .foregroundStyle(Color.subColor200)
+                    }
+                }
+                
+                NavigationLink(
+                    destination: FindPasswordView()
+                        .environmentObject(userStore)
+                ) {
                     
                     Text("비밀번호 찾기")
                         .pretendard(size: .s,
                                     weight: .regular)
                         .foregroundStyle(Color.subColor200)
                 }
-                
             }
+            
         } // - VStack
         .padding(.horizontal, 20)
         .frame(maxHeight: .infinity)
         .disabled(isProcessingLogin)
         .toast(isPresenting: $isProcessingLogin) {
-            AlertToast(displayMode: .alert, type: .loading)
+            AlertToast(displayMode: .alert,
+                       type: .loading)
         }
         .toast(isPresenting: $isPresentedLoginFailureAlert) {
-            AlertToast(displayMode: .alert, type: .error(.red), title: "로그인에 실패했습니다!\n 다시 시도해주세요")
+            AlertToast(displayMode: .alert,
+                       type: .error(.red),
+                       title: "로그인에 실패했습니다!\n 다시 시도해주세요")
         }
     }
     
     func processLogin() {
         Task {
             isProcessingLogin = true
-           let isLoginSuccess = await userStore.logIn(email: userEmail, password: userPassword)
+           let isLoginSuccess = await userStore.logIn(email: userEmail,
+                                                      password: userPassword)
             if !isLoginSuccess {
                 isPresentedLoginFailureAlert = true
             }
