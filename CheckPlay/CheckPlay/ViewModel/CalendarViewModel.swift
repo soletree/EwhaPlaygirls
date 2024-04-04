@@ -17,11 +17,14 @@ class CalendarViewModel: ObservableObject {
     let days: [Int] = Array(1...31)
     
     var nowDateComponent: DateComponents {
-        let component = calendar.dateComponents([.year,
-                                 .month,
-                                 .day,
-                                 .weekday],
-                           from: .now)
+        var component = calendar.dateComponents([.year,
+                                                 .month,
+                                                 .day,
+                                                 .weekday,
+                                                 .hour],
+                                                from: .now)
+        // 설정 안 하면 date로 바꿀 때 무조건 nil이 나옴
+        component.calendar = calendar
         return component
     }
     
