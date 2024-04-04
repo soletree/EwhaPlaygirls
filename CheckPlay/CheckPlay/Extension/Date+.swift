@@ -1,4 +1,4 @@
-//
+
 //  Ex+Date.swift
 //  CheckPlay
 //
@@ -8,6 +8,27 @@
 import Foundation
 
 extension Date {
+     static var yearOfToday: Int {
+        let dateFormatter: DateFormatter = .init()
+        dateFormatter.dateFormat = "yyyy"
+        let year = Int(dateFormatter.string(from: Date())) ?? 0
+        return year
+    }
+    
+    static var monthOfToday: Int {
+        let dateFormatter: DateFormatter = .init()
+        dateFormatter.dateFormat = "MM"
+        let month = Int(dateFormatter.string(from: Date())) ?? 0
+        return month
+    }
+    
+    static var dayOfToday: Int {
+        let dateFormatter: DateFormatter = .init()
+        dateFormatter.dateFormat = "dd"
+        let day = Int(dateFormatter.string(from: Date())) ?? 0
+        return day
+    }
+    
     var dateToString: String {
         let dateFormatter: DateFormatter = .init()
         dateFormatter.locale = Locale(identifier: "ko-KR")
@@ -18,6 +39,13 @@ extension Date {
     func toString() -> String {
         let dateFormatter: DateFormatter = .init()
         dateFormatter.dateFormat = "yyyy년 MM월 dd일 HH시 mm분"
+        dateFormatter.locale = Locale(identifier:"ko_KR")
+        return dateFormatter.string(from: self)
+    }
+    
+    func toStringTime() -> String {
+        let dateFormatter: DateFormatter = .init()
+        dateFormatter.dateFormat = "HH시 mm분"
         dateFormatter.locale = Locale(identifier:"ko_KR")
         return dateFormatter.string(from: self)
     }
@@ -36,7 +64,9 @@ extension Date {
         return dateFormatter.string(from: self)
     }
     
-    func returnDateOfToday() -> (Int, Int, Int) {
+    func returnDateOfToday() -> (year: Int,
+                                 month: Int,
+                                 day: Int) {
         let dateFormatter: DateFormatter = .init()
         dateFormatter.dateFormat = "yyyy"
         let year = Int(dateFormatter.string(from: self)) ?? 0
@@ -46,13 +76,13 @@ extension Date {
         let day = Int(dateFormatter.string(from: self)) ?? 0
                        
         return (year, month, day)
-                       
     }
     
     /// 특정 Date와 시간을 비교하는 메서드입니다.
     /// - return: (출석 상태, 지각한 시간)
     /// - 만일 출석 시간보다 15분 보다 이른 시간이면 nil을 반환합니다. 
-    func compareToSpecificDate(compared date: Date) -> (AttendanceStatus, Int)? {
+    func compareToSpecificDate(compared date: Date) -> (status: AttendanceStatus,
+                                                        lateTime: Int)? {
         // 15분 전부터 출석체크가 가능합니다.
         let startDate = date.addingTimeInterval(-15 * 60)
         // 10분 후부터 지각처리됩니다.
@@ -74,18 +104,6 @@ extension Date {
         } else {
             return nil
         }
-        
-        
-        
-        
     }
-    
-}
-
-
-
-
-
-extension String {
     
 }
