@@ -25,7 +25,6 @@ struct LoginRouteView: View {
             } else {
                 LoginView()
             }
-            
         } // - NavigationView
         .task {
             // 이미 로그인한 상태면
@@ -37,8 +36,12 @@ struct LoginRouteView: View {
             await userStore.fetchUser(uid: currentUser.uid)
             await scheduleStore.fetchScheduleOnToday()
             
-            if scheduleStore.scheduleOfToday != nil && userStore.currentUser != nil {
-                let foundAttendanceIDResult = await attendanceStore.findAttendanceWithScheduleID(scheduleID: scheduleStore.scheduleOfToday!.id, studentCode: userStore.currentUser!.studentCode)
+            if scheduleStore.scheduleOfToday != nil 
+                && userStore.currentUser != nil {
+                let foundAttendanceIDResult = await attendanceStore.findAttendanceWithScheduleID(
+                    scheduleID: scheduleStore.scheduleOfToday!.id,
+                    studentCode: userStore.currentUser!.studentCode
+                )
                 
                 switch foundAttendanceIDResult {
                 case .success(let attendanceID):
@@ -50,7 +53,6 @@ struct LoginRouteView: View {
                     case .failure(let error):
                         print("\(error.localizedDescription)")
                     }
-                    
                 case .failure(let error):
                     print("\(error.localizedDescription)")
                 }
