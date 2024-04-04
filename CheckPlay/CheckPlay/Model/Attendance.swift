@@ -19,19 +19,19 @@ enum AttendanceStatus: String {
     func toColor() -> Color {
         switch self {
         case .attendance:
-            return Color.pointColor
+            return Color.green
         case .late:
-            return Color.pointColor
+            return Color.yellow
         case .absent:
-            return Color.pointColor
+            return Color.red
         case .officialAbsent:
-            return Color.pointColor
+            return Color.black
         case .cancledByWeather:
-            return Color.pointColor
+            return Color.blue
         case .cancledByCoach:
-            return Color.pointColor
+            return Color.blue
         case .rest:
-            return Color.pointColor
+            return Color.purple
         }
     }
 }
@@ -65,17 +65,17 @@ enum AttendanceError: Error {
     func toString() -> String {
         switch self {
         case .time:
-            return "출석체크 시간이 아닙니다!"
+            return "출석체크 시간이 아니에요"
         case .location:
-            return "지정된 위치가 아닙니다."
+            return "지정된 위치가 아니에요"
         case .complete:
-            return "출석체크가 완료되었습니다!"
+            return "출석체크가 이미 완료되었어요"
         case .unknown:
-            return "알 수 없는 오류입니다! 개발자에게 문의하세요."
+            return "알 수 없는 오류예요. 개발자에게 문의해주세요."
         case .noSchedule:
-            return "오늘은 일정이 없습니다!"
+            return "오늘은 일정이 없어요"
         @unknown default:
-            return "알 수 없는 오류입니다! 개발자에게 문의하세요."
+            return "알 수 없는 오류입니다! 개발자에게 문의해주세요."
         }
     }
 }
