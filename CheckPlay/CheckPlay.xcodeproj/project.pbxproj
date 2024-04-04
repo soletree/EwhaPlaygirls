@@ -410,10 +410,10 @@
 			isa = PBXGroup;
 			children = (
 				FD3DEB242B4EC0AD0003F88C /* Info.plist */,
+				FDF4558A29A29AAA005DEFB7 /* CheckPlayApp.swift */,
 				FDCA1E9B29AD157F0038725D /* Constant */,
 				FDCA1E9629AD05990038725D /* Extension */,
 				FDCA1E9329AD03B70038725D /* Environment */,
-				FDF4558A29A29AAA005DEFB7 /* CheckPlayApp.swift */,
 				FDF455B629A29C20005DEFB7 /* View */,
 				FDF455B729A29C2A005DEFB7 /* ViewModel */,
 				FDF455B829A29C35005DEFB7 /* Model */,
