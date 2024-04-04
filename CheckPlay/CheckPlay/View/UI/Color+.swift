@@ -24,14 +24,18 @@ extension Color {
     static let subColor100 = Color(hex: 0xE6EDEA)
     
 //    static let customLightGreen = Color(hex: 0x5CAD83)
+    static let backgroundGray = Color(hex: 0xE6EDEA,
+                                      alpha: 0.5)
     
     static let pointColor = Color(hex: 0xE3D12C)
     
     static let mapCircleOutlineRed = Color(hex: 0xEA3323)
-    static let mapCircleFilledRed = Color(hex: 0xEA3323, alpha: 0.4)
+    static let mapCircleFilledRed = Color(hex: 0xEA3323,
+                                          alpha: 0.4)
     
     // hex 값으로 색을 초기화합니다.
-    init(hex: UInt, alpha: Double = 1) {
+    init(hex: UInt,
+         alpha: Double = 1) {
         self.init(
             .sRGB,
             red: Double((hex >> 16) & 0xff) / 255,
