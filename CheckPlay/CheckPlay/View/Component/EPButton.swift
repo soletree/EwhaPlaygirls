@@ -22,6 +22,19 @@ struct EPButton<Label: View>: View {
                 .clipShape(RoundedRectangle(cornerRadius: 15))
         }
     }
+    
+    @ViewBuilder
+    func disable(_ isDisable: Bool) -> some View {
+        if isDisable {
+            disabled(true)
+                .overlay {
+                    RoundedRectangle(cornerRadius: 15)
+                        .foregroundStyle(Color.backgroundGray)
+                }
+        } else {
+            self 
+        }
+    }
 }
 
 #Preview {
