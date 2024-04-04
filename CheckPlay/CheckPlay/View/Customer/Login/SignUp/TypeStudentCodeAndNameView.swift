@@ -21,51 +21,58 @@ struct TypeStudentCodeAndNameView: View {
     var body: some View {
         VStack(alignment: .leading) {
             Spacer()
-            Text("학번, 이름 작성")
-                .font(.largeTitle.bold())
-            Text("학번 7자리(ex. 1234567)\n이름(ex. 김감자)을 입력해주세요.")
-                .foregroundColor(.gray)
             
+            Text("학생 정보 입력")
+                .pretendard(size: .xxl,
+                            weight: .bold)
+            Text("학번 7자리(ex. 1234567)\n이름(ex. 김이화)을 입력해주세요.")
+                .pretendard(size: .xs,
+                            weight: .medium)
+                .foregroundStyle(Color.gray300)
             
-            Spacer()
-            VStack(alignment: .center) {
-                CustomTextField(style: .studentCode, title: "학번을 입력하세요", text: $userStudentCode).customTextField
-                CustomTextField(style: .plain, title: "이름을 입력하세요", text: $userName).customTextField
+
+            VStack {
+                EPTextField(style: .studentCode,
+                            title: "학번을 입력하세요",
+                            text: $userStudentCode)
+                EPTextField(style: .plain,
+                            title: "이름을 입력하세요",
+                            text: $userName)
+                .padding(.bottom, 10)
                 
-                
-                CustomButton(style: .plain, action: {
-                    Task {
-                        let result = await userStore.isValidStudentCode(name: userName, studentCode: userStudentCode)
-                        if !result { isPresentedTypeStudentCodeAndNameViewAlert = true
-                            return
-                        }
-                        print("등록된 멤버 정보")
-                        signUpInfo.studentCode = userStudentCode
-                        signUpInfo.name = userName
-                        isMember = true
-                    }
-                }).customButton
-                    .padding(20)
+                EPButton {
+                    checkValidMember()
+                } label: {
+                    Text("다음으로")
+                        .frame(maxWidth: .infinity)
+                }
             }
             
             Spacer()
-            
         } // - VStack
+        .padding(.horizontal, 20)
         .toast(isPresenting: $isPresentedTypeStudentCodeAndNameViewAlert) {
             AlertToast(displayMode: .alert, type: .error(.red), title: "잘못된 정보입니다. 다시 시도하세요!")
         }
     }
     
-    //MARK: - View(header)
-    private var headerOfTypeStudentCodeAndName: some View {
-        VStack(alignment: .leading) {
-            Text("학번, 이름 작성")
-                .font(.largeTitle.bold())
-            Text("학번 7자리(ex. 1234567)\n 이름(ex. 김감자)을 입력해주세요.")
-                .foregroundColor(.gray)
+    // FIXME 학번 정규식 추가
+    func checkValidMember() {
+        Task {
+            let result = await userStore.isValidStudentCode(name: userName, studentCode: userStudentCode)
+            if !result { isPresentedTypeStudentCodeAndNameViewAlert = true
+                return
+            }
+            signUpInfo.studentCode = userStudentCode
+            signUpInfo.name = userName
+            isMember = true
         }
-        .frame(minWidth: UIScreen.screenWidth)
-    } // - header
+    }
 }
 
 
+#Preview {
+    TypeStudentCodeAndNameView(isMember: .constant(false),
+                               signUpInfo: .constant(.init()))
+        .environmentObject(UserStore())
+}

@@ -179,6 +179,7 @@ class UserStore: ObservableObject {
     //MARK: - Method(fetchUser)
     /// 유저의 uid로 데이터베이스에서 User data를 fetch합니다.
     /// 반환값: 유저 fetch 성공 여부 (Bool)
+    @discardableResult
     func fetchUser(uid: String) async -> Bool {
         do {
             let document = try await database.collection("User")
@@ -203,6 +204,7 @@ class UserStore: ObservableObject {
     
     //MARK: - Method(logOut)
     /// 로그아웃 메서드입니다.
+    @discardableResult
     func logOut() -> Bool {
         do {
             try Auth.auth().signOut()
@@ -277,6 +279,10 @@ class UserStore: ObservableObject {
         }
             
     } // - deleteUser
+    
+    func findPassword(email: String) async throws {
+        try await Auth.auth().sendPasswordReset(withEmail: email)
+    }
 }
 
 

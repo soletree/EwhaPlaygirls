@@ -13,4 +13,9 @@ struct User {
     var studentCode: String // 학번 (식별자)
     var name: String // 이름
     var email: String // 이메일
+    
+    static let defaultModel: User = .init(id: "123",
+                                          studentCode: "1234567",
+                                          name: "김이화",
+                                          email: "ewha@ewhain.com")
 }

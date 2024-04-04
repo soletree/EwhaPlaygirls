@@ -7,17 +7,12 @@
 
 import SwiftUI
 import AlertToast
-import GoogleMobileAds
 
 struct MyPageView: View {
     @EnvironmentObject var userStore: UserStore
-    
-    var name: String {
-        userStore.currentUser?.name ?? "N/A"
-    }
-    
-    var studentCode: String {
-        userStore.currentUser?.studentCode ?? "N/A"
+    @StateObject var alertViewModel: AlertViewModel = .init()
+    var user: User {
+        userStore.currentUser ?? .defaultModel
     }
     
     var composeMailData: ComposeMailData {
@@ -30,59 +25,67 @@ struct MyPageView: View {
         let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "0.0.0"
         return version
     }
-    
-    @State var isProcessing: Bool = false
-    @State var isPresentedLogOutFailureToastAlert: Bool = false
-    @State var toastAlertWithLogOut: AlertToast = .init(displayMode: .alert, type: .error(.red))
-    
+    @State var isPresentedEditProfileView: Bool = false
     @State var isPresentedConfirmLogOutAlert: Bool = false
     
     @State var isPresentedContactMailSheet: Bool = false
     @State var isAlertContactMail: Bool = false
+    
     var body: some View {
-        VStack {
-            
             VStack(alignment: .leading) {
-                Text("\(name)님")
-                    .foregroundColor(.customGreen)
-                    .font(.largeTitle.bold()) +
-                Text(" (\(studentCode))")
-                    .foregroundColor(.customLightGray)
-                    .font(.title.bold())
-                Text("환영합니다!")
-                    .font(.largeTitle.bold())
-                    .padding(.bottom, 15)
+                VStack(alignment: .leading) {
+                    HStack(spacing: 10) {
+                        Text("\(user.name)님")
+                            .pretendard(size: .xxl,
+                                        weight: .semibold)
+                            .foregroundStyle(Color.brandColor)
+                        Image(systemName: "baseball.fill")
+                            .resizable()
+                            .frame(width: 30,
+                                   height: 30)
+                            .foregroundStyle(Color.gray100)
+                            .background(Color.yellow)
+                            .clipShape(Circle())
+                        
+                        Spacer()
+                    }
+                    Text("안녕하세요!")
+                        .pretendard(size: .xl,
+                                    weight: .semibold)
+                }
+                .padding(.horizontal, 20)
+                .padding(.bottom, 10)
+                .background(Color.subColor300)
                 
+                Group {
+                    sectionOfEditProfile
+                    sectionOfContact
+                    sectionOfLogOut
+                }
+                .padding(.horizontal, 20)
                 
-                sectionOfEditProfile
-                sectionOfContact
-                sectionOfLogOut
-                sectionOfMasterMode
-                
-                // 버전 정보입니다.
                 Divider()
-                Text("버전 정보 v\(versionInformation)")
-                    .font(.caption)
-                    .foregroundColor(.customLightGray)
+                // 버전 정보입니다.
+                HStack {
+                    Spacer()
+                    Text("버전 정보 v\(versionInformation)")
+                        .pretendard(size: .xxs,
+                                    weight: .light)
+                        .foregroundStyle(Color.gray300)
+                }
+                .padding(.vertical, 5)
+                .padding(.horizontal, 20)
                 
-                
+                Spacer()
             } // - VStack
-            .padding([.horizontal, .top], 20)
-            
-            Spacer()
-            
-            // 광고 섹션입니다.
-            GoogleAdView()
-                .frame(width: UIScreen.screenWidth, height: GADPortraitAnchoredAdaptiveBannerAdSizeWithWidth(UIScreen.screenWidth).size.height)
-                
-           
-        } // - VStack
-        
+            .navigationDestination(isPresented: $isPresentedEditProfileView) {
+                EditProfileView()
+                .environmentObject(userStore)
+            }
         
         // ContactMailSheet입니다. 
         .sheet(isPresented: $isPresentedContactMailSheet, content: {
             ContactMailView(data: .constant(composeMailData)) { result in
-                print(result)
                 switch result{
                 case .success(let result):
                     print(result)
@@ -91,11 +94,11 @@ struct MyPageView: View {
                 }
             }
         })
-        .toast(isPresenting: $isPresentedLogOutFailureToastAlert) {
-            toastAlertWithLogOut
+        .toast(isPresenting: $alertViewModel.isError) {
+            alertViewModel.errorAlert
         }
-        .toast(isPresenting: $isProcessing) {
-            AlertToast(displayMode: .alert, type: .loading)
+        .toast(isPresenting: $alertViewModel.isProcessing) {
+            alertViewModel.loadingAlert
         }
         .alert(
             "정말로 로그아웃하시겠어요?",
@@ -112,75 +115,82 @@ struct MyPageView: View {
         .alert(isPresented: $isAlertContactMail) {
             Alert(title: Text("\(Bundle.main.object(forInfoDictionaryKey: "DEVELOPER_EMAIL") as? String ?? "")로 문의바랍니다."))
         }
-        
     }
     
     //MARK: - Method(requestLogOut)
     func requestLogOut() {
-        isProcessing = true
+        alertViewModel.isProcessing = true
         let logOutResult = userStore.logOut()
-        isProcessing = false
+        alertViewModel.isProcessing = false
+        
         // 로그아웃이 실패하면 알럿을 띄워줍니다.
         if !logOutResult {
-            toastAlertWithLogOut.title = "로그아웃 실패"
-            toastAlertWithLogOut.subTitle = "다시 시도해주세요."
-            toastAlertWithLogOut.type = .error(.red)
+            let title = "로그아웃에 실패했어요"
+            let subtitle = "다시 시도해주세요."
+            alertViewModel.setErrorTitle(title: title,
+                                         subTitle: subtitle)
+            alertViewModel.isError = true
         } else {
-            toastAlertWithLogOut.title = "로그아웃되었습니다."
-            toastAlertWithLogOut.type = .complete(.green)
+            let title = "로그아웃했어요!"
+            alertViewModel.setCompleteTitle(title: title)
+            alertViewModel.isComplete = true
         }
-        isPresentedLogOutFailureToastAlert = true
     } // - requestLogOut
     
     //MARK: - View(sectionOfEditProfile)
     private var sectionOfEditProfile: some View {
-        VStack(alignment: .leading) {
-            NavigationLink(destination: EditProfileRouteView().environmentObject(userStore)) {
-                Text("회원정보 수정")
-                    .foregroundColor(.black)
-            }
-        } // - VStack
+        HStack {
+            Text("회원정보 수정")
+                .pretendard(size: .s,
+                            weight: .regular)
+                .foregroundStyle(Color.black)
+            Spacer()
+        } // - HStack
+        .padding(.vertical, 10)
+        .contentShape(Rectangle())
+        .onTapGesture {
+            isPresentedEditProfileView = true
+        }
     } // - sectionOfEditProfile
     
     //MARK: - View(sectionOfContact)
     private var sectionOfContact: some View {
-        VStack(alignment: .leading) {
-            Divider()
-            Button(action: {
-                if ContactMailView.canSendMail {
-                   isPresentedContactMailSheet = true
-                } else {
-                    isAlertContactMail = true
-                }
-            }) {
-                Text("문의하기")
-                    .foregroundColor(.black)
+        HStack {
+            Text("문의하기")
+                .pretendard(size: .s,
+                            weight: .regular)
+                .foregroundStyle(Color.black)
+            Spacer()
+        } // - HStack
+        .padding(.vertical, 10)
+        .contentShape(Rectangle())
+        .onTapGesture {
+            if ContactMailView.canSendMail {
+               isPresentedContactMailSheet = true
+            } else {
+                isAlertContactMail = true
             }
-        } // - VStack
+        }
     } // - sectionOfContact
     
     //MARK: - View(sectionOfLogOut)
     private var sectionOfLogOut: some View {
-        VStack(alignment: .leading) {
-            Divider()
-            Button(action: {
-                isPresentedConfirmLogOutAlert = true
-            }) {
-                Text("로그아웃하기")
-                    .foregroundColor(.black)
-            }
+        HStack {
+            Text("로그아웃")
+                .pretendard(size: .s,
+                            weight: .regular)
+                    .foregroundStyle(Color.black)
+            Spacer()
         } // - VStack
-    } // - sectionOfLogOut
-    
-    private var sectionOfMasterMode: some View {
-        VStack(alignment: .leading) {
-            Divider()
-            NavigationLink(destination: SingUpWithMaster()) {
-                Text("관리자 모드로 전환하기")
-                    .foregroundColor(.black)
-            }
+        .padding(.vertical, 10)
+        .contentShape(Rectangle())
+        .onTapGesture {
+            isPresentedConfirmLogOutAlert = true
         }
-    }
-    
+    } // - sectionOfLogOut
 }
 
+#Preview {
+    MyPageView()
+        .environmentObject(UserStore())
+}

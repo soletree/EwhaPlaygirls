@@ -1,12 +1,22 @@
 {
+  "originHash" : "6622fb7dde4b269c655a918696b677040b37fde71db84ee1b3b9f2b3ca9044b7",
   "pins" : [
     {
-      "identity" : "abseil-cpp-swiftpm",
+      "identity" : "abseil-cpp-binary",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/firebase/abseil-cpp-SwiftPM.git",
+      "location" : "https://github.com/google/abseil-cpp-binary.git",
       "state" : {
-        "revision" : "583de9bd60f66b40e78d08599cc92036c2e7e4e1",
-        "version" : "0.20220203.2"
+        "revision" : "7ce7be095bc3ed3c98b009532fe2d7698c132614",
+        "version" : "1.2024011601.0"
+      }
+    },
+    {
+      "identity" : "alamofire",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Alamofire/Alamofire",
+      "state" : {
+        "revision" : "f455c2975872ccd2d9c81594c658af65716e9b9a",
+        "version" : "5.9.1"
       }
     },
     {
@@ -19,12 +29,12 @@
       }
     },
     {
-      "identity" : "boringssl-swiftpm",
+      "identity" : "app-check",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/firebase/boringssl-SwiftPM.git",
+      "location" : "https://github.com/google/app-check.git",
       "state" : {
-        "revision" : "dd3eda2b05a3f459fc3073695ad1b28659066eab",
-        "version" : "0.9.1"
+        "revision" : "c218c2054299b15ae577e818bbba16084d3eabe6",
+        "version" : "10.18.2"
       }
     },
     {
@@ -32,8 +42,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/firebase/firebase-ios-sdk",
       "state" : {
-        "revision" : "7e80c25b51c2ffa238879b07fbfc5baa54bb3050",
-        "version" : "9.6.0"
+        "revision" : "888f0b6026e2441a69e3ee2ad5293c7a92031e62",
+        "version" : "10.23.1"
       }
     },
     {
@@ -41,8 +51,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/google/GoogleAppMeasurement.git",
       "state" : {
-        "revision" : "c1cfde8067668027b23a42c29d11c246152fe046",
-        "version" : "9.6.0"
+        "revision" : "c7a5917ebe48d69f421aadf154ef3969c8b7f12d",
+        "version" : "10.23.1"
       }
     },
     {
@@ -50,8 +60,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/google/GoogleDataTransport.git",
       "state" : {
-        "revision" : "f6b558e3f801f2cac336b04f615ce111fa9ddaa0",
-        "version" : "9.2.1"
+        "revision" : "a637d318ae7ae246b02d7305121275bc75ed5565",
+        "version" : "9.4.0"
       }
     },
     {
@@ -59,17 +69,17 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/google/GoogleUtilities.git",
       "state" : {
-        "revision" : "0543562f85620b5b7c510c6bcbef75b562a5127b",
-        "version" : "7.11.0"
+        "revision" : "26c898aed8bed13b8a63057ee26500abbbcb8d55",
+        "version" : "7.13.1"
       }
     },
     {
-      "identity" : "grpc-ios",
+      "identity" : "grpc-binary",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/grpc/grpc-ios.git",
+      "location" : "https://github.com/google/grpc-binary.git",
       "state" : {
-        "revision" : "8440b914756e0d26d4f4d054a1c1581daedfc5b6",
-        "version" : "1.44.3-grpc"
+        "revision" : "67043f6389d0e28b38fa02d1c6952afeb04d807f",
+        "version" : "1.62.1"
       }
     },
     {
@@ -79,6 +89,15 @@
       "state" : {
         "revision" : "5ccda3981422a84186387dbb763ba739178b529c",
         "version" : "2.3.0"
+      }
+    },
+    {
+      "identity" : "interop-ios-for-google-sdks",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/google/interop-ios-for-google-sdks.git",
+      "state" : {
+        "revision" : "2d12673670417654f08f5f90fdd62926dc3a2648",
+        "version" : "100.0.0"
       }
     },
     {
@@ -113,8 +132,17 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/google/promises.git",
       "state" : {
-        "revision" : "ec957ccddbcc710ccc64c9dcbd4c7006fcf8b73a",
-        "version" : "2.2.0"
+        "revision" : "540318ecedd63d883069ae7f1ed811a2df00b6ac",
+        "version" : "2.4.0"
+      }
+    },
+    {
+      "identity" : "snapkit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/SnapKit/SnapKit.git",
+      "state" : {
+        "revision" : "2842e6e84e82eb9a8dac0100ca90d9444b0307f4",
+        "version" : "5.7.1"
       }
     },
     {
@@ -125,7 +153,25 @@
         "revision" : "0af9125c4eae12a4973fb66574c53a54962a9e1e",
         "version" : "1.21.0"
       }
+    },
+    {
+      "identity" : "swiftnfc",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/1998code/SwiftNFC",
+      "state" : {
+        "revision" : "f39f346476a05655b34e4c1e9669c8342e6cc86d",
+        "version" : "1.3.0"
+      }
+    },
+    {
+      "identity" : "swiftyjson",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/SwiftyJSON/SwiftyJSON",
+      "state" : {
+        "revision" : "af76cf3ef710b6ca5f8c05f3a31307d44a3c5828",
+        "version" : "5.0.2"
+      }
     }
   ],
-  "version" : 2
+  "version" : 3
 }

@@ -16,24 +16,43 @@ struct ReLogInView: View {
     @State var password: String = ""
     
     var body: some View {
-        VStack {
-            CustomTextField(style: .secure, title: "비밀번호를 입력하세요", text: $password).customTextField
+        VStack(alignment: .leading) {
+            Text("인증하기")
+                .pretendard(size: .xxl,
+                            weight: .semibold)
+            Text("보안에 민감한 작업 전 한 번 더 인증하는 과정이에요")
+                .pretendard(size: .s,
+                            weight: .medium)
+                .foregroundStyle(Color.gray300)
+                .padding(.bottom, 30)
+            
+             EPTextField(style: .secure, title: "비밀번호를 입력하세요", text: $password)
                 .padding(.bottom, 10)
             
-            CustomButton(style: .plain) {
-                Task {
-                    // 사용자를 재인증합니다.
-                    let result = await userStore.relogInAndReauthentication(password: password)
-                    // 재인증에 실패(로그인에 실패)
-                    if !result { return }
-                    
-                    isReauthenticatedUser = true
-                    
-                }
-                // navigate update-password-View
-            }.customButton
-                .navigationTitle("비밀번호 확인")
-                .navigationBarTitleDisplayMode(.large)
+            EPButton {
+                reAuthorize()
+            } label: {
+                Text("인증하기")
+                    .frame(maxWidth: .infinity)
+            }
         } // - VStack
+        .padding(.horizontal, 20)
+    }
+    
+    //MARK: - reAuthorize
+    func reAuthorize() {
+        Task {
+            // 사용자를 재인증합니다.
+            let result = await userStore.relogInAndReauthentication(password: password)
+            // 재인증에 실패(로그인에 실패)
+            guard result
+            else { return }
+            isReauthenticatedUser = true
+        }
     }
 } // - ReLogInView
+
+#Preview {
+    ReLogInView(isReauthenticatedUser: .constant(false),
+                 password: "")
+}
