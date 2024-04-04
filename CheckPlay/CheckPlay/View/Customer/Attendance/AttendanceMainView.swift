@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import GoogleMobileAds
 
 struct AttendanceMainView: View {
     @EnvironmentObject var attendanceStore: AttendanceStore
