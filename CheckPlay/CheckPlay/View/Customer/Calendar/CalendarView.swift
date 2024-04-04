@@ -10,8 +10,15 @@ import SwiftUI
 let dayofWeek: [Int] = Array(WeekDay.sunday.rawValue...WeekDay.saturday.rawValue)
 
 struct CalendarView: View {
+    @EnvironmentObject var userStore: UserStore
+    @EnvironmentObject var attendanceStore: AttendanceStore
+    
     @ObservedObject var calendar: CalendarViewModel = .init()
     @State var selectedDate: DateComponents = .init()
+    
+    private var selectedAttendance: Attendance? {
+        filterAttendanceWithDate(selectedDate)
+    }
     
     var body: some View {
         VStack(alignment: .center,
@@ -25,9 +32,16 @@ struct CalendarView: View {
             selectedDateView
         }
         .onAppear {
-            calendar.year = calendar.nowDateComponent.year ?? calendar.yearRange.lowerBound
-            calendar.month = calendar.nowDateComponent.month ?? calendar.monthRange.lowerBound
+            calendar.year = calendar.nowDateComponent.year ??
+            calendar.yearRange.lowerBound
+            calendar.month = calendar.nowDateComponent.month ??
+            calendar.monthRange.lowerBound
             selectedDate = calendar.nowDateComponent
+        }
+        .task {
+            await attendanceStore.fetchAttendances(
+                studentCode: userStore.currentUser?.studentCode ?? ""
+            )
         }
     }
     
@@ -79,13 +93,15 @@ struct CalendarView: View {
             .padding(.vertical, 10)
             
             // 날짜 section
-            ForEach(calendar.divideDaysInWeek, id: \.self) { dateList in
+            ForEach(calendar.divideDaysInWeek,
+                    id: \.self) { dateList in
                 GridRow {
                     ForEach(dateList, id: \.self) { dateComponent in
-                        
-                        DateComponent(selected: $selectedDate,
-                                      dateComponent: dateComponent,
-                                      attendance: nil) {
+                        DateComponent(
+                            selected: $selectedDate,
+                            dateComponent: dateComponent,
+                            attendance: filterAttendanceWithDate(dateComponent)
+                        ) {
                             // attendance date fetch
                             selectedDate = dateComponent
                         }
@@ -101,7 +117,8 @@ struct CalendarView: View {
         VStack(alignment: .leading) {
             HStack {
                 Text("\(selectedDate.date?.dateToString ?? Date.now.dateToString)")
-                    .pretendard(size: .l, weight: .semibold)
+                    .pretendard(size: .l,
+                                weight: .semibold)
                     .padding(.vertical, 20)
                 Spacer()
                 
@@ -113,26 +130,59 @@ struct CalendarView: View {
                         .foregroundStyle(.black)
                 }
             }
-            Text("출석")
-                .pretendard(size: .m,
-                            weight: .medium)
+            
+            HStack {
+                Text("\(selectedAttendance?.date.toStringTime() ?? "")")
+                    .pretendard(size: .m,
+                                weight: .regular)
+                
+                Spacer()
+                
+                Text("\(selectedAttendance?.attendanceStatus.rawValue ?? "")")
+                    .pretendard(size: .m,
+                                weight: .medium)
+                    .foregroundStyle(
+                        selectedAttendance?
+                            .attendanceStatus
+                            .toColor() 
+                        ?? .black
+                    )
+            }
             
             Spacer()
+            
         }
         .padding(.horizontal, 20)
         .frame(maxWidth: .infinity)
-        .frame(maxHeight: 250)
+        .frame(maxHeight: 200)
         .background(
-         LinearGradient(colors: [.gray100, .white], startPoint: .top, endPoint: .bottom)
+            UnevenRoundedRectangle(
+                topLeadingRadius: 15,
+                topTrailingRadius: 15
+            )
+            .foregroundStyle(Color.white)
+            .shadow(radius: 5)
         )
-        .cornerRadius(15)
+    }
+    
+    private func filterAttendanceWithDate(
+        _ dateComponent: DateComponents
+    ) -> Attendance? {
+        guard let date = dateComponent.date
+        else { return nil }
+        
+        let attendance = attendanceStore.attendances.filter { attendance in
+            attendance.date.returnDateOfToday() == date.returnDateOfToday()
+        }
+        return attendance.first
     }
     
 }
 
-
 #Preview {
     CalendarView()
+        .environmentObject(UserStore())
+        .environmentObject(AttendanceStore())
 }
 
 
