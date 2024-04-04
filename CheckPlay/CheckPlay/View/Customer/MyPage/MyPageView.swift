@@ -132,6 +132,7 @@ struct MyPageView: View {
             alertViewModel.isError = true
         } else {
             let title = "로그아웃했어요!"
+            alertViewModel.setCompleteTitle(title: title)
             alertViewModel.isComplete = true
         }
     } // - requestLogOut
