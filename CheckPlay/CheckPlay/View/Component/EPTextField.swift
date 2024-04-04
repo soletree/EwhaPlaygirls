@@ -49,15 +49,19 @@ struct EPTextField: View {
             if isSecureField {
                 SecureField("\(title)",
                             text: $text)
+                .textInputAutocapitalization(.never)
             } else {
-                TextField("\(title)", text: $text)
+                TextField("\(title)",
+                          text: $text)
+                .textInputAutocapitalization(.never)
             }
             Spacer()
             
             Button {
                 isSecureField.toggle()
             } label: {
-                Image(systemName: isSecureField ? "eye.slash.fill": "eye.fill")
+                Image(systemName: isSecureField ?
+                      "eye.slash.fill": "eye.fill")
                     .foregroundStyle(Color.brandColor)
             }
             .frame(width: 24,
@@ -69,6 +73,7 @@ struct EPTextField: View {
     private var studentCodeStyle: some View {
         TextField("\(title)",
                   text: $text)
+            .textInputAutocapitalization(.never)
             .keyboardType(.numberPad)
         
     } // - studentCodeStyle
@@ -77,6 +82,7 @@ struct EPTextField: View {
     private var emailStyle: some View {
         TextField("\(title)",
                   text: $text)
+            .textInputAutocapitalization(.never)
             .keyboardType(.emailAddress)
         
     } // - emailStyle
@@ -86,6 +92,7 @@ struct EPTextField: View {
 struct EPTextFieldModifier: ViewModifier {
     func body(content: Content) -> some View {
         content
+            .textInputAutocapitalization(.never)
             .pretendard(size: .xs,
                         weight: .regular)
             .textFieldStyle(.plain)
