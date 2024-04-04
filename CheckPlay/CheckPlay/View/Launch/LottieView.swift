@@ -22,14 +22,13 @@ struct LottieView: UIViewRepresentable {
         animationView.loopMode = .loop
         animationView.play()
         animationView.backgroundBehavior = .pauseAndRestore
-
-      animationView.translatesAutoresizingMaskIntoConstraints = false
         
         view.addSubview(animationView)
        
+        animationView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            animationView.heightAnchor.constraint(equalTo: view.heightAnchor),
-            animationView.widthAnchor.constraint(equalTo: view.widthAnchor)
+            animationView.widthAnchor.constraint(equalTo: view.widthAnchor),
+            animationView.heightAnchor.constraint(equalTo: view.heightAnchor)
         ])
 
         return view

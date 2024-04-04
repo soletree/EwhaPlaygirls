@@ -10,22 +10,32 @@ import FirebaseFirestore
 import Firebase
 
 class ScheduleStore: ObservableObject {
+    private var collectionName: String {
+        return "Schedule\(Date.yearOfToday)"
+    }
     let database = Firestore.firestore()
     @Published var schedules: [Schedule] = []
     @Published var scheduleOfToday: Schedule?
     
     //MARK: - Method(fetchScheduleOnToday)
     /// 오늘로 등록되어 있는 스케줄을 fetch 합니다. 오늘로 등록된 스케줄이 여러개인 경우 fetch 시점과 가장 근접한 스케줄 하나만 fetch 해옵니다.
+    @discardableResult
     func fetchScheduleOnToday() async -> Bool {
         let calendar = Calendar.current
         let today = Date().returnDateOfToday()
-        let startDate = calendar.date(from: DateComponents(year: today.0, month: today.1, day: today.2)) ?? Date()
-        let endDate =  calendar.date(from: DateComponents(year: today.0, month: today.1, day: today.2 + 1)) ?? Date()
+        let startDate = calendar.date(from: DateComponents(year: today.0,
+                                                           month: today.1,
+                                                           day: today.2)) ?? Date()
+        let endDate =  calendar.date(from: DateComponents(year: today.0,
+                                                          month: today.1,
+                                                          day: today.2 + 1)) ?? Date()
         
         do {
-            let snapshot = try await database.collection("Schedule")
-                .whereField(ScheduleConstant.date, isGreaterThanOrEqualTo: Timestamp(date: startDate))
-                .whereField(ScheduleConstant.date, isLessThan: Timestamp(date: endDate))
+            let snapshot = try await database.collection(collectionName)
+                .whereField(ScheduleConstant.date,
+                            isGreaterThanOrEqualTo: Timestamp(date: startDate))
+                .whereField(ScheduleConstant.date,
+                            isLessThan: Timestamp(date: endDate))
                 .getDocuments()
             
             if snapshot.documents.isEmpty {
@@ -37,11 +47,7 @@ class ScheduleStore: ObservableObject {
             let document = snapshot.documents.first!
             let date = document[ScheduleConstant.date] as? Timestamp
             let todaySchedule = Schedule(id: document[ScheduleConstant.id] as? String ?? DefaultValue.defaultString,
-                                         date: date?.dateValue() ?? Date(),
-                                         latitude: document[ScheduleConstant.latitude] as? Double ?? 0,
-                                         longitude: document[ScheduleConstant.longitude] as? Double ?? 0,
-                                         address: document[ScheduleConstant.address] as? String ?? DefaultValue.defaultString,
-                                         detailedAddress: document[ScheduleConstant.detailedAddress] as? String ?? DefaultValue.defaultString)
+                                         date: date?.dateValue() ?? Date())
             
             DispatchQueue.main.async {
                 self.scheduleOfToday = todaySchedule
@@ -62,11 +68,13 @@ class ScheduleStore: ObservableObject {
         
         let calendar = Calendar.current
         let today = Date().returnDateOfToday()
-        let startDate =  calendar.date(from: DateComponents(year: today.0, month: today.1, day: today.2 + 2)) ?? Date()
+        let startDate =  calendar.date(from: DateComponents(year: today.0,
+                                                            month: today.1,
+                                                            day: today.2 + 2)) ?? Date()
         var fetchedSchedules: [Schedule] = []
         
         do {
-            let snapshot = try await database.collection("Schedule")
+            let snapshot = try await database.collection(collectionName)
                 .whereField(ScheduleConstant.date, isGreaterThanOrEqualTo: Timestamp(date: startDate))
                 .getDocuments()
             
@@ -75,11 +83,7 @@ class ScheduleStore: ObservableObject {
             for document in snapshot.documents {
                 let timestamp = document[ScheduleConstant.date] as? Timestamp
                 let schedule = Schedule(id: document[ScheduleConstant.id] as? String ?? DefaultValue.defaultString,
-                                        date: timestamp?.dateValue() ?? Date(),
-                                        latitude: document[ScheduleConstant.latitude] as? Double ?? 0,
-                                        longitude: document[ScheduleConstant.longitude] as? Double ?? 0,
-                                        address: document[ScheduleConstant.address] as? String ?? DefaultValue.defaultString,
-                                        detailedAddress: document[ScheduleConstant.detailedAddress] as? String ?? DefaultValue.defaultString)
+                                        date: timestamp?.dateValue() ?? Date())
                 fetchedSchedules.append(schedule)
             }
             DispatchQueue.main.async {
